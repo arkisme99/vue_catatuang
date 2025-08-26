@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catat Uang Management - ARK CODING</title>
+    <!-- Tailwind CDN (JIT) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: "#fff1f0",
+                100: "#ffe3df",
+                200: "#ffc7bf",
+                300: "#ffa99e",
+                400: "#ff7a66",
+                500: "#ff5733", // merah-oranye utama
+                600: "#e64e2e",
+                700: "#cc4529",
+                800: "#b33b24",
+                900: "#8f2f1c",
+              },
+              sunset: {
+                500: "#ff6a00",
+                600: "#ff5a00",
+                700: "#e24f00",
+              },
+            },
+            boxShadow: {
+              soft: "0 10px 25px -10px rgb(0 0 0 / 0.25)",
+            },
+            keyframes: {
+              fadeUp: {
+                "0%": {
+                  opacity: 0,
+                  transform: "translateY(8px)",
+                },
+                "100%": {
+                  opacity: 1,
+                  transform: "translateY(0)",
+                },
+              },
+            },
+            animation: {
+              fadeUp: "fadeUp .6s ease-out",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji",
+          "Segoe UI Emoji";
+      }
+
+      /* card hover animation */
+      .card-hover {
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.35);
+      }
+
+      /* pretty focus ring */
+      .focus-brand:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
