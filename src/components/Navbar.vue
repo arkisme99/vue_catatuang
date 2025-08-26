@@ -15,11 +15,11 @@
       </div>
 
       <div class="hidden md:flex items-center gap-2" id="navLinks">
-        <a
+        <RouterLink
           data-route="landing"
-          href="index.php"
+          to="/"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
-          >Home</a
+          >Home</RouterLink
         >
         <a
           data-route="home"
