@@ -1,4 +1,38 @@
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+import { authRegister } from "../../lib/api/AuthApi";
+import { alertError, alertSuccess } from "../../lib/alert";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const user = reactive({
+  name: "",
+  username: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+});
+
+async function handleSubmit() {
+  if (user.password !== user.password_confirmation) {
+    await alertError("Password dan konfirmasi password tidak sama");
+    return;
+  }
+
+  const response = await authRegister(user);
+  const responseBody = await response.json();
+
+  if (response.status === 201) {
+    await alertSuccess("Pendaftaran berhasil");
+    await router.push({
+      path: "/login",
+    });
+  } else {
+    await alertError(responseBody.message);
+  }
+}
+</script>
 
 <template>
   <div class="max-w-6xl mx-auto px-4 py-10 space-y-12">
@@ -9,7 +43,11 @@
           class="p-6 md:p-8 rounded-2xl bg-white/80 dark:bg-neutral-900/70 border border-black/10 dark:border-white/10 card-hover"
         >
           <h2 class="text-2xl font-semibold mb-6">Daftar</h2>
-          <form id="registerForm" class="space-y-4">
+          <form
+            id="registerForm"
+            class="space-y-4"
+            v-on:submit.prevent="handleSubmit"
+          >
             <div class="grid md:grid-cols-2 gap-4">
               <div>
                 <label for="regName" class="block text-sm font-medium mb-1"
@@ -20,6 +58,7 @@
                   required
                   class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
                   placeholder="Nama lengkap"
+                  v-model="user.name"
                 />
               </div>
               <div>
@@ -30,7 +69,8 @@
                   id="regUsername"
                   required
                   class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                  placeholder="arkchannel"
+                  placeholder="username"
+                  v-model="user.username"
                 />
               </div>
             </div>
@@ -44,6 +84,7 @@
                 required
                 class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
                 placeholder="you@mail.com"
+                v-model="user.email"
               />
             </div>
             <div class="grid md:grid-cols-2 gap-4">
@@ -58,6 +99,7 @@
                   minlength="6"
                   class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
                   placeholder="Min. 6 karakter"
+                  v-model="user.password"
                 />
               </div>
               <div>
@@ -71,6 +113,7 @@
                   minlength="6"
                   class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
                   placeholder="Sama seperti di kiri"
+                  v-model="user.password_confirmation"
                 />
               </div>
             </div>

@@ -51,11 +51,11 @@
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
           >Register</RouterLink
         >
-        <RouterLink
+        <a
           id="logoutBtn"
-          to="javascript:void(0)"
+          href="javascript:void(0)"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
-          >Logout</RouterLink
+          >Logout</a
         >
       </div>
 
