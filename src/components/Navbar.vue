@@ -20,34 +20,42 @@
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
           >Home</RouterLink
         >
-        <a
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Dashboard</a
-        >
-        <a
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Profile</a
-        >
-        <a
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Kategori</a
-        >
-        <RouterLink
-          :to="pathLogin"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Login</RouterLink
-        >
-        <RouterLink
-          :to="pathRegister"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Register</RouterLink
-        >
-        <a
-          id="logoutBtn"
-          href="javascript:void(0)"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Logout</a
-        >
+        <template v-if="isLoggedIn">
+          <RouterLink
+            :to="pathDashboard"
+            data-route="home"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Dashboard</RouterLink
+          >
+          <RouterLink
+            :to="pathProfile"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Profile</RouterLink
+          >
+          <RouterLink
+            :to="pathKategori"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Kategori</RouterLink
+          >
+          <a
+            id="logoutBtnMobile"
+            href="javascript:void(0)"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Logout</a
+          >
+        </template>
+        <template v-else>
+          <RouterLink
+            :to="pathLogin"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Login</RouterLink
+          >
+          <RouterLink
+            :to="pathRegister"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Register</RouterLink
+          >
+        </template>
       </div>
 
       <div class="flex items-center gap-2">
@@ -102,60 +110,82 @@
       </div>
     </nav>
     <!-- Mobile links -->
-    <div
-      id="mobileMenu"
-      class="md:hidden hidden border-t border-black/5 dark:border-white/10"
+    <transition
+      enter-active-class="transition-opacity duration-300"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition-opacity duration-300"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
-      <div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap gap-2">
-        <RouterLink
-          :to="pathHome"
-          data-route="landing"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
-        >
-          Home
-        </RouterLink>
-        <RouterLink
-          :to="pathDashboard"
-          data-route="home"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Dashboard</RouterLink
-        >
-        <RouterLink
-          :to="pathProfile"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Profile</RouterLink
-        >
-        <RouterLink
-          :to="pathKategori"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Kategori</RouterLink
-        >
-        <RouterLink
-          :to="pathLogin"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Login</RouterLink
-        >
-        <RouterLink
-          :to="pathRegister"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Register</RouterLink
-        >
-        <a
-          id="logoutBtnMobile"
-          href="javascript:void(0)"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
-          >Logout</a
-        >
+      <div
+        v-show="isMobileMenuOpen"
+        id="mobileMenu"
+        class="md:hidden border-t border-black/5 dark:border-white/10"
+      >
+        <div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap gap-2">
+          <RouterLink
+            :to="pathHome"
+            data-route="landing"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+          >
+            Home
+          </RouterLink>
+
+          <template v-if="isLoggedIn">
+            <RouterLink
+              :to="pathDashboard"
+              data-route="home"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Dashboard</RouterLink
+            >
+            <RouterLink
+              :to="pathProfile"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Profile</RouterLink
+            >
+            <RouterLink
+              :to="pathKategori"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Kategori</RouterLink
+            >
+            <a
+              id="logoutBtnMobile"
+              href="javascript:void(0)"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Logout</a
+            >
+          </template>
+          <template v-else>
+            <RouterLink
+              :to="pathLogin"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Login</RouterLink
+            >
+            <RouterLink
+              :to="pathRegister"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Register</RouterLink
+            >
+          </template>
+        </div>
       </div>
-    </div>
+    </transition>
   </header>
 </template>
 
 <script setup>
 import { RouterLink } from "vue-router";
 import { useThemeStore } from "../stores/theme";
+import { useAuthStore } from "../stores/auth";
+import { computed, ref } from "vue";
+
+const authStore = useAuthStore();
+const isLoggedIn = computed(() => authStore.isTokenValid);
 
 const { toggleTheme } = useThemeStore();
+
+const isMobileMenuOpen = ref(false);
 
 const pathHome = "/";
 const pathLogin = "/login";
@@ -165,7 +195,7 @@ const pathProfile = "/profile";
 const pathKategori = "/kategori";
 
 function toggleMobileMenu() {
-  document.getElementById("mobileMenu")?.classList.toggle("hidden");
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 </script>
 

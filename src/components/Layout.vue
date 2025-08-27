@@ -9,28 +9,6 @@ onBeforeMount(async () => {
   const themeStore = useThemeStore();
   // console.log(`Theme: ${themeStore.theme}`);
   themeStore.applyTheme(themeStore.theme);
-
-  //cek token dulu, mengatasi kalau ada yg inject token manual di local storage
-  const authStore = useAuthStore();
-
-  await authStore.checkToken();
-  const isAuth = authStore.isTokenValid;
-
-  if (isAuth === true) {
-    document.querySelectorAll(".authed\\:hidden").forEach((el) => {
-      el.classList.toggle("hidden", false);
-    }); // false hidden jika sudah login
-    document.querySelectorAll(".guest\\:hidden").forEach((el) => {
-      el.classList.toggle("hidden", true);
-    });
-  } else {
-    document.querySelectorAll(".authed\\:hidden").forEach((el) => {
-      el.classList.toggle("hidden", true);
-    }); // true hidden jika belum login
-    document.querySelectorAll(".guest\\:hidden").forEach((el) => {
-      el.classList.toggle("hidden", false);
-    });
-  }
 });
 </script>
 
