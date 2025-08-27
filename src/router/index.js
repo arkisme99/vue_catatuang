@@ -3,29 +3,63 @@ import Layout from "../components/Layout.vue";
 import Home from "../pages/Home.vue";
 import UserRegister from "../pages/auth/UserRegister.vue";
 import UserLogin from "../pages/auth/UserLogin.vue";
+import { useAuthStore } from "../stores/auth";
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
+  history: createWebHistory(),
+  routes: [
+    {
+      path: "/",
+      component: Layout,
+      children: [
         {
-            path: '/',
-            component: Layout,
+          path: "/",
+          component: Home,
+        },
+        {
+          path: "/register",
+          component: UserRegister,
+        },
+        {
+          path: "/login",
+          component: UserLogin,
+        },
+      ],
+    },
+    /* {
+            path: '/dashboard',
+            meta: { requiresAuth: true },
             children: [
                 {
-                    path: '/',
-                    component: Home
-                },
-                {
-                    path: '/register',
-                    component: UserRegister
-                },
-                {
-                    path: '/login',
-                    component: UserLogin
+                    path: '/kategori',
+                    component: Kategori,
+                    meta: { requiresAuth: true }
                 }
             ]
-        }
-    ]
-})
+        } */
+  ],
+});
 
-export default router
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+
+  // cek apakah route butuh auth
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // cek token jika belum valid
+    if (!authStore.isTokenValid) {
+      try {
+        await authStore.checkToken(); // ini akan logout jika invalid
+      } catch (err) {
+        // ignore, sudah di-handle di store
+      }
+    }
+
+    if (!authStore.isTokenValid) {
+      return next({ path: "/login", query: { redirect: to.fullPath } });
+    }
+  }
+
+  next();
+});
+
+export default router;
