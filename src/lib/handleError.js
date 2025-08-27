@@ -9,8 +9,12 @@ export async function handleFetchError(response, responseBody) {
         .join("<br>") || responseBody?.message;
 
     await alertWarning(errors);
-  } else if (response.status >= 500) {
+  } else {
     // Error 5xx (server error)
-    await alertError(responseBody?.message || "Terjadi kesalahan server");
+    await alertError(
+      `${response.status} : ${
+        responseBody?.message || "Terjadi kesalahan di server"
+      }`
+    );
   }
 }

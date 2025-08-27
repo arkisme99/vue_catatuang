@@ -1,12 +1,9 @@
 import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
 import { AuthService } from "../services/AuthService";
 import { alertError, alertSuccess } from "../lib/alert";
-import { handleFetchError } from "../lib/handleError";
+import { useRouter } from "vue-router";
 
 export function useRegister() {
-  const router = useRouter();
-
   const user = reactive({
     name: "",
     username: "",
@@ -16,6 +13,7 @@ export function useRegister() {
   });
 
   const isLoading = ref(false);
+  const router = useRouter();
 
   async function handleSubmit() {
     if (user.password !== user.password_confirmation) {
@@ -24,18 +22,24 @@ export function useRegister() {
     }
 
     isLoading.value = true;
-
-    const response = await AuthService.register(user);
-    const responseBody = await response.json();
-
-    if (response.status === 201) {
-      await alertSuccess("Pendaftaran berhasil");
-      await router.push({
-        path: "/login",
-      });
-    } else {
+    try {
+      const response = await AuthService.register(user);
+      // console.log(`Response: ${response}`);
+      if (response.ok) {
+        await alertSuccess("Pendaftaran berhasil");
+        await router.push({
+          path: "/login",
+        });
+      }
+    } catch (e) {
+      if (e instanceof Promise) {
+        //tidak eksekusi apapun karena sudah dihandle sama apiFetch
+      } else {
+        console.log(e);
+        alertError(e);
+      }
+    } finally {
       isLoading.value = false;
-      await handleFetchError(response, responseBody);
     }
   }
 
