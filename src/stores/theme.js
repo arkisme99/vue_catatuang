@@ -1,15 +1,10 @@
 import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { ref } from "vue";
 
 export const useThemeStore = defineStore("theme", () => {
-  const theme = ref(
-    useLocalStorage(
-      "pref-theme",
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    )
+  const theme = useLocalStorage(
+    "pref-theme",
+    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   );
 
   function applyTheme(t) {

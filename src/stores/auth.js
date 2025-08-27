@@ -1,50 +1,59 @@
 import { AuthService } from "../services/AuthService";
-import { handleFetchError } from "../lib/handleError";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useLocalStorage } from "@vueuse/core";
 
 export const useAuthStore = defineStore("auth", () => {
   //   const AUTH_KEY = "session";
   const PROFILE_KEY = "profile-user";
   const AUTH_TOKEN = "session-token";
 
-  const authToken = ref(localStorage.getItem(AUTH_TOKEN) || null);
+  const authToken = useLocalStorage(AUTH_TOKEN, "");
+  const authProfile = useLocalStorage(PROFILE_KEY, "");
   const isTokenValid = ref(false);
 
-  function setProfile(profile) {
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-  }
-
-  function setToken(token) {
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-
   async function checkToken() {
-    const response = await AuthService.getProfile();
-    const responseBody = await response.json();
+    try {
+      const response = await AuthService.getProfile();
+      // console.log(`Response: ${response}`);
+      const responseBody = await response.json();
+      if (!response.ok) {
+        isTokenValid.value = false;
+        logout();
+        return;
+      }
+
+      authToken.value = responseBody.data.token;
+      authProfile.value = JSON.stringify(responseBody.data.user);
+      isTokenValid.value = true;
+    } catch (e) {
+      isTokenValid.value = false;
+      logout();
+      console.log(e);
+    }
+    /* const responseBody = await response.json();
 
     if (response.status === 200) {
-      setProfile(responseBody.data);
-      setToken(responseBody.data.token);
+      authToken.value = responseBody.data.token;
+      authProfile.value = JSON.stringify(responseBody.data.user);
       isTokenValid.value = true;
     } else {
       isTokenValid.value = false;
-      await handleFetchError(response, responseBody);
+      // await handleFetchError(response, responseBody);
       logout();
-    }
+    } */
   }
 
   function logout() {
     // localStorage.removeItem(AUTH_KEY);
-    localStorage.removeItem(PROFILE_KEY);
-    localStorage.removeItem(AUTH_TOKEN);
+    authToken.value = "";
+    authProfile.value = "";
   }
 
   return {
     authToken,
     isTokenValid,
     checkToken,
-    setToken,
     logout,
   };
 });

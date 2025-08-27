@@ -24,6 +24,7 @@ export const AuthService = {
   },
 
   async getProfile() {
+    //pakai fetch biasa karena apipFetch semua error fetch keluar alert
     const authStore = useAuthStore();
     const token = authStore.authToken;
     return await fetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {

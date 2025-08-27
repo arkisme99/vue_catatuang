@@ -7,23 +7,16 @@ import { useAuthStore } from "../stores/auth";
 // Jalankan saat komponen mount
 onBeforeMount(async () => {
   const themeStore = useThemeStore();
-  console.log(`Theme: ${themeStore.theme}`);
+  // console.log(`Theme: ${themeStore.theme}`);
   themeStore.applyTheme(themeStore.theme);
-});
-onMounted(async () => {
-  // const themeStore = useThemeStore();
-  const authStore = useAuthStore();
 
-  // themeStore.applyTheme(themeStore.theme);
+  //cek token dulu, mengatasi kalau ada yg inject token manual di local storage
+  const authStore = useAuthStore();
 
   await authStore.checkToken();
   const isAuth = authStore.isTokenValid;
 
-  console.log(`Cek Auth : ${isAuth}`);
-
   if (isAuth === true) {
-    // alert("Sudah login")
-    // location.href="index.html"
     document.querySelectorAll(".authed\\:hidden").forEach((el) => {
       el.classList.toggle("hidden", false);
     }); // false hidden jika sudah login
