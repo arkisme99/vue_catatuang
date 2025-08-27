@@ -1,12 +1,15 @@
+import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useThemeStore = defineStore("theme", () => {
   const theme = ref(
-    localStorage.getItem("pref-theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
+    useLocalStorage(
+      "pref-theme",
+      window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
-        : "light")
+        : "light"
+    )
   );
 
   function applyTheme(t) {
@@ -15,7 +18,8 @@ export const useThemeStore = defineStore("theme", () => {
 
   function setTheme(t) {
     theme.value = t;
-    localStorage.setItem("pref-theme", t);
+    // localStorage.setItem("pref-theme", t);
+    useLocalStorage("pref-theme", t);
   }
 
   function toggleTheme() {

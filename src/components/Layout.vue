@@ -1,15 +1,20 @@
 <script setup>
-import { onMounted } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 import Navbar from "./Navbar.vue";
 import { useThemeStore } from "../stores/theme";
 import { useAuthStore } from "../stores/auth";
 
 // Jalankan saat komponen mount
-onMounted(async () => {
+onBeforeMount(async () => {
   const themeStore = useThemeStore();
+  console.log(`Theme: ${themeStore.theme}`);
+  themeStore.applyTheme(themeStore.theme);
+});
+onMounted(async () => {
+  // const themeStore = useThemeStore();
   const authStore = useAuthStore();
 
-  themeStore.applyTheme(themeStore.theme);
+  // themeStore.applyTheme(themeStore.theme);
 
   await authStore.checkToken();
   const isAuth = authStore.isTokenValid;
