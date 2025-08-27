@@ -16,3 +16,11 @@ export const alertError = async (message) => {
         text: message
     })
 }
+
+export const alertWarning = async (errors) => {
+    return Swal.fire({
+        icon: 'warning',
+        title: 'Ups !',
+        html: errors
+    })
+}

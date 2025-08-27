@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from "vue";
 import { authRegister } from "../../lib/api/AuthApi";
-import { alertError, alertSuccess } from "../../lib/alert";
+import { alertError, alertSuccess, alertWarning } from "../../lib/alert";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -28,6 +28,12 @@ async function handleSubmit() {
     await router.push({
       path: "/login",
     });
+  } else if (response.status === 400) {
+    const errors = responseBody.errors
+      .map((errors) => `<b>${errors.path.join(".")}</b>: ${errors.message}`)
+      .join("<br>");
+
+    await alertWarning(errors);
   } else {
     await alertError(responseBody.message);
   }
