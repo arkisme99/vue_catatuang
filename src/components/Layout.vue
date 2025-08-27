@@ -1,45 +1,22 @@
 <script setup>
 import { onMounted } from "vue";
 import Navbar from "./Navbar.vue";
-
-const THEME_KEY = "pref-theme";
-const root = document.documentElement;
-
-const AUTH_KEY = "session";
-const isAuthed = localStorage.getItem(AUTH_KEY);
-const PROFILE_KEY = "profile-user";
-
-function applyTheme(t) {
-  t === "dark" ? root.classList.add("dark") : root.classList.remove("dark");
-}
-
-function toggleTheme() {
-  const t = root.classList.contains("dark") ? "light" : "dark";
-  localStorage.setItem(THEME_KEY, t);
-  applyTheme(t);
-}
-
-function toggleMobileMenu() {
-  document.getElementById("mobileMenu")?.classList.toggle("hidden");
-}
+import { useThemeStore } from "../stores/theme";
+import { useAuthStore } from "../stores/auth";
 
 // Jalankan saat komponen mount
-onMounted(() => {
-  applyTheme(
-    localStorage.getItem(THEME_KEY) ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light")
-  );
+onMounted(async () => {
+  const themeStore = useThemeStore();
+  const authStore = useAuthStore();
 
-  document
-    .getElementById("themeToggle")
-    ?.addEventListener("click", toggleTheme);
-  document
-    .getElementById("menuBtn")
-    ?.addEventListener("click", toggleMobileMenu);
+  themeStore.applyTheme(themeStore.theme);
 
-  if (isAuthed === "authenticated") {
+  await authStore.checkToken();
+  const isAuth = authStore.isTokenValid;
+
+  console.log(`Cek Auth : ${isAuth}`);
+
+  if (isAuth === true) {
     // alert("Sudah login")
     // location.href="index.html"
     document.querySelectorAll(".authed\\:hidden").forEach((el) => {

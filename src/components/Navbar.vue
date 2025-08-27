@@ -7,60 +7,52 @@
         <div
           class="h-9 w-9 rounded-xl bg-gradient-to-br from-brand-500 to-sunset-600 shadow-soft"
         ></div>
-        <a href="index.php"
+        <RouterLink :to="pathHome"
           ><span class="text-lg font-semibold tracking-tight"
             >Catat Uang</span
-          ></a
+          ></RouterLink
         >
       </div>
 
       <div class="hidden md:flex items-center gap-2" id="navLinks">
         <RouterLink
-          data-route="landing"
-          to="/"
+          :to="pathHome"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
           >Home</RouterLink
         >
         <a
-          data-route="home"
-          href="dashboard.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
           >Dashboard</a
         >
         <a
-          data-route="profile"
-          href="profile.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
           >Profile</a
         >
         <a
-          data-route="kategori"
-          href="kategori.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
           >Kategori</a
         >
         <RouterLink
-          data-route="login"
-          to="/login"
+          :to="pathLogin"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
           >Login</RouterLink
         >
         <RouterLink
-          data-route="register"
-          to="/register"
+          :to="pathRegister"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
           >Register</RouterLink
         >
         <a
           id="logoutBtn"
           href="javascript:void(0)"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
           >Logout</a
         >
       </div>
 
       <div class="flex items-center gap-2">
         <button
+          v-on:click="toggleTheme"
           id="themeToggle"
           class="group inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-black/10 dark:border-white/10 hover:border-brand-500/50 dark:hover:border-brand-500/50 transition"
         >
@@ -86,6 +78,7 @@
           <!-- <span class="text-sm">Tema</span> -->
         </button>
         <button
+          v-on:click="toggleMobileMenu"
           id="menuBtn"
           class="md:hidden p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/5"
           aria-label="Toggle menu"
@@ -114,47 +107,43 @@
       class="md:hidden hidden border-t border-black/5 dark:border-white/10"
     >
       <div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap gap-2">
-        <button
+        <RouterLink
+          :to="pathHome"
           data-route="landing"
-          href="index.php"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
         >
           Home
-        </button>
-        <a
+        </RouterLink>
+        <RouterLink
+          :to="pathDashboard"
           data-route="home"
-          href="dashboard.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
-          >Dashboard</a
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
+          >Dashboard</RouterLink
         >
-        <a
-          data-route="profile"
-          href="profile.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
-          >Profile</a
+        <RouterLink
+          :to="pathProfile"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
+          >Profile</RouterLink
         >
-        <a
-          data-route="kategori"
-          href="kategori.php"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
-          >Kategori</a
+        <RouterLink
+          :to="pathKategori"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
+          >Kategori</RouterLink
         >
-        <a
-          data-route="login"
-          href="login.php"
+        <RouterLink
+          :to="pathLogin"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Login</a
+          >Login</RouterLink
         >
-        <a
-          data-route="register"
-          href="register.php"
+        <RouterLink
+          :to="pathRegister"
           class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition guest:hidden"
-          >Register</a
+          >Register</RouterLink
         >
         <a
           id="logoutBtnMobile"
           href="javascript:void(0)"
-          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden"
+          class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition authed:hidden hidden"
           >Logout</a
         >
       </div>
@@ -164,6 +153,20 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
+import { useThemeStore } from "../stores/theme";
+
+const { toggleTheme } = useThemeStore();
+
+const pathHome = "/";
+const pathLogin = "/login";
+const pathRegister = "/register";
+const pathDashboard = "/dashboard";
+const pathProfile = "/profile";
+const pathKategori = "/kategori";
+
+function toggleMobileMenu() {
+  document.getElementById("mobileMenu")?.classList.toggle("hidden");
+}
 </script>
 
 <style scoped></style>

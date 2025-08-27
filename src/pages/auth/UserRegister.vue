@@ -1,43 +1,7 @@
 <script setup>
-import { reactive } from "vue";
-import { authRegister } from "../../lib/api/AuthApi";
-import { alertError, alertSuccess, alertWarning } from "../../lib/alert";
-import { useRouter } from "vue-router";
+import { useRegister } from "../../composable/useRegister";
 
-const router = useRouter();
-
-const user = reactive({
-  name: "",
-  username: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
-});
-
-async function handleSubmit() {
-  if (user.password !== user.password_confirmation) {
-    await alertError("Password dan konfirmasi password tidak sama");
-    return;
-  }
-
-  const response = await authRegister(user);
-  const responseBody = await response.json();
-
-  if (response.status === 201) {
-    await alertSuccess("Pendaftaran berhasil");
-    await router.push({
-      path: "/login",
-    });
-  } else if (response.status === 400) {
-    const errors = responseBody.errors
-      .map((errors) => `<b>${errors.path.join(".")}</b>: ${errors.message}`)
-      .join("<br>");
-
-    await alertWarning(errors);
-  } else {
-    await alertError(responseBody.message);
-  }
-}
+const { user, handleSubmit } = useRegister();
 </script>
 
 <template>

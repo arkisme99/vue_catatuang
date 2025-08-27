@@ -1,33 +1,12 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import { createRouter, createWebHistory } from 'vue-router'
-import Layout from './components/Layout.vue'
-import UserRegister from './components/auth/UserRegister.vue'
-import UserLogin from './components/auth/UserLogin.vue'
-import Home from './components/Home.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import { createPinia } from "pinia";
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        {
-            path: '/',
-            component: Layout,
-            children: [
-                {
-                    path: '/',
-                    component: Home
-                },
-                {
-                    path: '/register',
-                    component: UserRegister
-                },
-                {
-                    path: '/login',
-                    component: UserLogin
-                }
-            ]
-        }
-    ]
-})
+const app = createApp(App);
+const pinia = createPinia();
 
-createApp(App).use(router).mount('#app')
+app.use(pinia);
+app.use(router);
+app.mount("#app");
+// createApp(App).use(pinia).use(router).mount('#app')
