@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { AuthService } from "../services/AuthService";
 import { alertError, alertSuccess } from "../lib/alert";
@@ -15,11 +15,15 @@ export function useRegister() {
     password_confirmation: "",
   });
 
+  const isLoading = ref(false);
+
   async function handleSubmit() {
     if (user.password !== user.password_confirmation) {
       alertError("Password dan konfirmasi password tidak sama");
       return;
     }
+
+    isLoading.value = true;
 
     const response = await AuthService.register(user);
     const responseBody = await response.json();
@@ -30,9 +34,10 @@ export function useRegister() {
         path: "/login",
       });
     } else {
+      isLoading.value = false;
       await handleFetchError(response, responseBody);
     }
   }
 
-  return { user, handleSubmit };
+  return { user, handleSubmit, isLoading };
 }

@@ -1,7 +1,9 @@
 <script setup>
+import BaseInput from "../../components/BaseInput.vue";
+import ButtonSubmit from "../../components/ButtonSubmit.vue";
 import { useRegister } from "../../composable/useRegister";
 
-const { user, handleSubmit } = useRegister();
+const { user, handleSubmit, isLoading } = useRegister();
 </script>
 
 <template>
@@ -19,79 +21,60 @@ const { user, handleSubmit } = useRegister();
             v-on:submit.prevent="handleSubmit"
           >
             <div class="grid md:grid-cols-2 gap-4">
-              <div>
-                <label for="regName" class="block text-sm font-medium mb-1"
-                  >Nama</label
-                >
-                <input
-                  id="regName"
-                  required
-                  class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                  placeholder="Nama lengkap"
-                  v-model="user.name"
-                />
-              </div>
-              <div>
-                <label for="regUsername" class="block text-sm font-medium mb-1"
-                  >Username</label
-                >
-                <input
-                  id="regUsername"
-                  required
-                  class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                  placeholder="username"
-                  v-model="user.username"
-                />
-              </div>
-            </div>
-            <div>
-              <label for="regEmail" class="block text-sm font-medium mb-1"
-                >Email</label
-              >
-              <input
-                id="regEmail"
-                type="email"
+              <BaseInput
+                id="regName"
+                name="regName"
+                label="Nama Lengkap"
+                type="text"
+                placeholder="Nama lengkap"
                 required
-                class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                placeholder="you@mail.com"
-                v-model="user.email"
+                v-model="user.name"
+                autocomplete="off"
+              />
+              <BaseInput
+                id="regUsername"
+                name="regUsername"
+                label="Username"
+                type="text"
+                placeholder="masukan username"
+                required
+                v-model="user.username"
+                autocomplete="off"
               />
             </div>
+            <BaseInput
+              id="regEmail"
+              name="regEmail"
+              label="Email Valid"
+              type="email"
+              required
+              placeholder="you@email.com"
+              v-model="user.email"
+              autocomplete="off"
+            />
             <div class="grid md:grid-cols-2 gap-4">
-              <div>
-                <label for="regPassword" class="block text-sm font-medium mb-1"
-                  >Kata Sandi</label
-                >
-                <input
-                  id="regPassword"
-                  type="password"
-                  required
-                  minlength="6"
-                  class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                  placeholder="Min. 6 karakter"
-                  v-model="user.password"
-                />
-              </div>
-              <div>
-                <label for="regPassword2" class="block text-sm font-medium mb-1"
-                  >Ulangi Sandi</label
-                >
-                <input
-                  id="regPassword2"
-                  type="password"
-                  required
-                  minlength="6"
-                  class="w-full rounded-xl border border-black/10 dark:border-white/10 bg-white/90 dark:bg-neutral-800 px-3 py-2 focus-brand"
-                  placeholder="Sama seperti di kiri"
-                  v-model="user.password_confirmation"
-                />
-              </div>
+              <BaseInput
+                id="regPassword"
+                name="regPassword"
+                label="Kata Sandi"
+                type="password"
+                placeholder="Min. 6 karakter"
+                minlength="6"
+                v-model="user.password"
+              />
+              <BaseInput
+                id="regPassword2"
+                name="regPassword2"
+                label="Ulangi Sandi"
+                type="password"
+                placeholder="Sama seperti password"
+                minlength="6"
+                v-model="user.password_confirmation"
+              />
             </div>
-            <button
-              class="w-full py-2.5 rounded-xl text-white bg-gradient-to-r from-brand-500 to-sunset-600 shadow-soft hover:opacity-90 transition"
-            >
-              Buat Akun
-            </button>
+
+            <ButtonSubmit :loading="isLoading"> Buat Akun </ButtonSubmit>
+
             <p class="text-sm text-center">
               Sudah punya akun?
               <RouterLink
