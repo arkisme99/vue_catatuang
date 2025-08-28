@@ -19,6 +19,25 @@ export const alertSuccess = async (message) => {
   });
 };
 
+export const alertDanger = async (message) => {
+  return Swal.fire({
+    toast: true, // mode toast (kecil, pojok)
+    position: "top-end", // pojok kanan atas
+    icon: "error",
+    title: message,
+    showConfirmButton: false, // tanpa tombol OK
+    timer: 2500, // auto close 2 detik
+    timerProgressBar: true, // ada loader (progress bar)
+    background: "#882c2cff",
+    color: "#fff",
+    didOpen: (toast) => {
+      // pause/resume loader saat mouse hover
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+};
+
 export const alertError = async (message) => {
   return Swal.fire({
     icon: "error",
@@ -32,5 +51,16 @@ export const alertWarning = async (errors) => {
     icon: "warning",
     title: "Ups !",
     html: errors,
+  });
+};
+
+export const alertConfirm = async (message, textYes, textNo) => {
+  return Swal.fire({
+    icon: "warning",
+    title: "Apakah anda yakin ?",
+    text: message,
+    showCancelButton: true,
+    confirmButtonText: textYes,
+    cancelButtonText: textNo,
   });
 };

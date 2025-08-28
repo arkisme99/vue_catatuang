@@ -5,7 +5,7 @@ import UserRegister from "../pages/auth/UserRegister.vue";
 import UserLogin from "../pages/auth/UserLogin.vue";
 import { useAuthStore } from "../stores/auth";
 import { useFlashStore } from "../stores/flash";
-import { alertSuccess } from "../lib/alert";
+import { alertDanger, alertSuccess } from "../lib/alert";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -47,7 +47,8 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  console.log(`val: ${authStore.isTokenValid}`);
+  const flashStore = useFlashStore();
+  // console.log(`val: ${authStore.isTokenValid}`);
 
   //cek token ada ga di local storage
   if (!authStore.authToken) {
@@ -73,6 +74,7 @@ router.beforeEach(async (to, from, next) => {
   // console.log(`cekrut: ${isAuthenticated}`);
   // Route butuh login
   if (to.meta.requiresAuth && !isAuthenticated) {
+    flashStore.setFlash("Login dulu kanda...!", "danger");
     return next({ path: "/login", query: { redirect: to.fullPath } });
   }
 
@@ -89,6 +91,9 @@ router.afterEach(async (to, from) => {
 
   if (flashStore.message && flashStore.type === "success") {
     await alertSuccess(flashStore.message);
+    await flashStore.clearFlash();
+  } else if (flashStore.message && flashStore.type === "danger") {
+    await alertDanger(flashStore.message);
     await flashStore.clearFlash();
   }
 });

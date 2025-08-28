@@ -52,4 +52,19 @@ export const AuthService = {
       },
     });
   },
+
+  async logout() {
+    const result = await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/auth/logout`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "X-API-TOKEN": getToken(),
+        },
+      }
+    );
+
+    return result;
+  },
 };

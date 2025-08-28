@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import Navbar from "./Navbar.vue";
 import { useThemeStore } from "../stores/theme";
 

@@ -37,11 +37,13 @@
             class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
             >Kategori</RouterLink
           >
-          <a
+          <RouterLink
+            to="#"
             id="logoutBtnMobile"
+            @click.prevent="confirmLogout"
             href="javascript:void(0)"
             class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
-            >Logout</a
+            >Logout</RouterLink
           >
         </template>
         <template v-else>
@@ -149,11 +151,12 @@
               class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
               >Kategori</RouterLink
             >
-            <a
+            <RouterLink
               id="logoutBtnMobile"
-              href="javascript:void(0)"
+              to="#"
+              @click.prevent="confirmLogout"
               class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
-              >Logout</a
+              >Logout</RouterLink
             >
           </template>
           <template v-else>
@@ -179,11 +182,15 @@ import { RouterLink } from "vue-router";
 import { useThemeStore } from "../stores/theme";
 import { useAuthStore } from "../stores/auth";
 import { computed, ref } from "vue";
+import { alertConfirm } from "../lib/alert";
+import { useLogout } from "../composable/useLogout";
 
 const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isTokenValid);
 
 const { toggleTheme } = useThemeStore();
+
+const { handleLogout } = useLogout();
 
 const isMobileMenuOpen = ref(false);
 
@@ -196,6 +203,18 @@ const pathKategori = "/kategori";
 
 function toggleMobileMenu() {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
+}
+
+async function confirmLogout() {
+  const alConfirm = await alertConfirm(
+    "Keluar aplikasi sekarang ?",
+    "Ya, Keluar",
+    "Tidak, Jangan dulu"
+  );
+
+  if (alConfirm.isConfirmed) {
+    await handleLogout();
+  }
 }
 </script>
 
