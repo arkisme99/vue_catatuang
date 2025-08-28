@@ -4,6 +4,8 @@ import Home from "../pages/Home.vue";
 import UserRegister from "../pages/auth/UserRegister.vue";
 import UserLogin from "../pages/auth/UserLogin.vue";
 import { useAuthStore } from "../stores/auth";
+import { useFlashStore } from "../stores/flash";
+import { alertSuccess } from "../lib/alert";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -61,6 +63,15 @@ router.beforeEach(async (to, from, next) => {
   }
 
   next();
+});
+
+router.afterEach(async (to, from) => {
+  const flashStore = useFlashStore();
+
+  if (flashStore.message && flashStore.type === "success") {
+    await alertSuccess(flashStore.message);
+    await flashStore.clearFlash();
+  }
 });
 
 export default router;

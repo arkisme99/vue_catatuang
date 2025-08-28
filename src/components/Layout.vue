@@ -2,7 +2,6 @@
 import { onBeforeMount, onMounted } from "vue";
 import Navbar from "./Navbar.vue";
 import { useThemeStore } from "../stores/theme";
-import { useAuthStore } from "../stores/auth";
 
 // Jalankan saat komponen mount
 onBeforeMount(async () => {

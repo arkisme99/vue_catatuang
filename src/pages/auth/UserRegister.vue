@@ -26,6 +26,7 @@ const { user, handleSubmit, isLoading } = useRegister();
           v-model="user.name"
           autocomplete="off"
           icon="fas fa-user"
+          :afocus="true"
         />
         <BaseInput
           id="regUsername"

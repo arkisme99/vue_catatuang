@@ -1,7 +1,8 @@
 import { reactive, ref } from "vue";
 import { AuthService } from "../services/AuthService";
-import { alertError, alertSuccess } from "../lib/alert";
+import { alertError } from "../lib/alert";
 import { useRouter } from "vue-router";
+import { useFlashStore } from "../stores/flash";
 
 export function useRegister() {
   const user = reactive({
@@ -14,6 +15,7 @@ export function useRegister() {
 
   const isLoading = ref(false);
   const router = useRouter();
+  const flashStore = useFlashStore();
 
   async function handleSubmit() {
     if (user.password !== user.password_confirmation) {
@@ -26,7 +28,8 @@ export function useRegister() {
       const response = await AuthService.register(user);
       // console.log(`Response: ${response}`);
       if (response.ok) {
-        await alertSuccess("Pendaftaran berhasil");
+        await flashStore.setFlash("Pendaftaran berhasil", "success");
+
         await router.push({
           path: "/login",
         });

@@ -20,13 +20,16 @@
         v-model="modelValueLocal"
         class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-800 px-10 py-2 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 dark:placeholder-gray-500 transition-colors duration-200"
         v-bind="attrs"
+        ref="inputEl"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, useAttrs } from "vue";
+import { nextTick, onMounted } from "vue";
+import { computed, ref, useAttrs } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
 
 defineOptions({
   inheritAttrs: false,
@@ -40,6 +43,7 @@ const props = defineProps({
   type: { type: String, default: "text" },
   modelValue: { type: String, default: "" },
   icon: { type: String, default: "fas fa-search" },
+  afocus: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -52,6 +56,21 @@ const modelValueLocal = computed({
 
 // Ambil semua atribut yang tidak didefinisikan di props
 const attrs = useAttrs();
+
+// Fokus otomatis ketika komponen dirender
+const inputEl = ref(null);
+
+onMounted(async () => {
+  if (props.afocus) {
+    await nextTick();
+    inputEl.value?.focus();
+  }
+});
+
+// Blur sebelum pindah halaman
+onBeforeRouteLeave(() => {
+  inputEl.value?.blur();
+});
 </script>
 
 <style scoped></style>

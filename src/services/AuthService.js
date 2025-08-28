@@ -23,6 +23,25 @@ export const AuthService = {
     return result;
   },
 
+  async login({ username, password }) {
+    const result = await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/auth/login`,
+      {
+        method: POST,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-API-TOKEN": getToken(),
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      }
+    );
+    return result;
+  },
+
   async getProfile() {
     //pakai fetch biasa karena apipFetch semua error fetch keluar alert
     return await fetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
