@@ -22,7 +22,8 @@ export function useLogout() {
         await router.push({ path: "/login" });
       }
     } catch (e: unknown) {
-      if (e instanceof Error) {
+      if (e instanceof Promise) {
+      } else if (e instanceof Error) {
         alertError(e.message);
       } else {
         alertError(String(e));

@@ -5,15 +5,17 @@ import { SweetAlertResult } from "sweetalert2";
 export async function handleFetchError<T extends ApiResponse>(
   response: Response,
   responseBody: T
-): Promise<SweetAlertResult> {
-  if (response.status >= 400 && response.status < 500) {
-    // Error 4xx (client error)
+): Promise<SweetAlertResult | void> {
+  if (response.status == 400) {
+    // Error 400 Validasi
     const errors =
       (responseBody?.errors || [])
         .map((err) => `<b>${err.path?.join?.(".")}</b>: ${err.message}`)
         .join("<br>") || responseBody?.message;
 
     return await alertWarning(errors);
+  } else if (response.status == 401) {
+    return await alertWarning(responseBody?.message || "Unauthorized");
   } else {
     // Error 5xx (server error)
     return await alertError(

@@ -48,43 +48,22 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  // console.log(`val: ${authStore.isTokenValid}`);
   const authStore = useAuthStore();
   const flashStore = useFlashStore();
-  // console.log(`val: ${authStore.isTokenValid}`);
-
-  const { authToken, logout, isTokenValid, checkToken } = authStore;
   const { setFlash } = flashStore;
 
-  //cek token ada ga di local storage
-  if (!authToken) {
-    //jika null / tidak ada paksa logout
-    logout();
-    // return next({ path: "/login", query: { redirect: to.fullPath } });
-  }
+  // if (!isTokenValid) await checkToken();
 
-  // Refresh token status (jika belum valid)
-  if (!isTokenValid) {
-    try {
-      // console.log(`cekrut: ekse inikan ?`);
-      await checkToken();
-      // console.log(`cekrut: ekse selesai : ${result}`);
-    } catch (err) {
-      // ignore error
-      // console.error(`Err cekrut: ${err}`);
-    }
-  }
-
-  const isAuthenticated = isTokenValid;
-
-  // console.log(`cekrut: ${isAuthenticated}`);
+  console.log(`cekrutt: ${authStore.isTokenValid}`);
   // Route butuh login
-  if (to.meta.requiresAuth && !isAuthenticated) {
+  if (to.meta.requiresAuth && !authStore.isTokenValid) {
     setFlash("Login dulu kanda...!", "danger");
     return next({ path: "/login", query: { redirect: to.fullPath } });
   }
 
   // Route public, tapi user udah login
-  if (to.meta.guestOnly && isAuthenticated) {
+  if (to.meta.guestOnly && authStore.isTokenValid) {
     return next({ path: "/dashboard" });
   }
 
@@ -93,7 +72,6 @@ router.beforeEach(async (to, from, next) => {
 
 router.afterEach(async (to, from) => {
   const flashStore = useFlashStore();
-
   const { message, type } = flashStore;
   if (message && type === "success") {
     await alertSuccess(message);
