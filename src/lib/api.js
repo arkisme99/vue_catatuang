@@ -10,5 +10,6 @@ export async function apiFetch(url, options) {
     throw handleFetchError(response, bodyResponse);
   }
 
-  return response;
+  // return response;
+  return { ok: response.ok, status: response.status, data: bodyResponse };
 }

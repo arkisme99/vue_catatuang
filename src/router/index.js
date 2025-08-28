@@ -21,10 +21,12 @@ const router = createRouter({
         {
           path: "/register",
           component: UserRegister,
+          meta: { guestOnly: true },
         },
         {
           path: "/login",
           component: UserLogin,
+          meta: { guestOnly: true },
         },
       ],
     },
@@ -45,21 +47,31 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  // console.log(authStore.isTokenValid);
-  // cek apakah route butuh auth
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // cek token jika belum valid
-    if (!authStore.isTokenValid) {
-      try {
-        await authStore.checkToken(); // ini akan logout jika invalid
-      } catch (err) {
-        // ignore, sudah di-handle di store
-      }
-    }
+  // console.log(`val: ${authStore.isTokenValid}`);
 
-    if (!authStore.isTokenValid) {
-      return next({ path: "/login", query: { redirect: to.fullPath } });
+  // Refresh token status (jika belum valid)
+  if (!authStore.isTokenValid) {
+    try {
+      // console.log(`cekrut: ekse inikan ?`);
+      const result = await authStore.checkToken();
+      // console.log(`cekrut: ekse selesai : ${result}`);
+    } catch (err) {
+      // ignore error
+      // console.error(`Err cekrut: ${err}`);
     }
+  }
+
+  const isAuthenticated = authStore.isTokenValid;
+
+  // console.log(`cekrut: ${isAuthenticated}`);
+  // Route butuh login
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return next({ path: "/login", query: { redirect: to.fullPath } });
+  }
+
+  // Route public, tapi user udah login
+  if (to.meta.guestOnly && isAuthenticated) {
+    return next({ path: "/dashboard" });
   }
 
   next();

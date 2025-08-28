@@ -16,6 +16,7 @@
         label="Kata Sandi"
         id="loginPassword"
         name="password"
+        type="password"
         required
         placeholder="••••••••"
         icon="fas fa-lock"

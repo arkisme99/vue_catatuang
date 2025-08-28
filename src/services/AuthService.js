@@ -27,7 +27,7 @@ export const AuthService = {
     const result = await apiFetch(
       `${import.meta.env.VITE_API_PATH}/auth/login`,
       {
-        method: POST,
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

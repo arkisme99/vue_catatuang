@@ -2,6 +2,8 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { AuthService } from "../services/AuthService";
 import { useAuthStore } from "../stores/auth";
+import { alertError } from "../lib/alert";
+import { useFlashStore } from "../stores/flash";
 
 export function useLogin() {
   const user = reactive({
@@ -12,18 +14,21 @@ export function useLogin() {
   const isLoading = ref(false);
   const router = useRouter();
   const authStore = useAuthStore();
+  const flashStore = useFlashStore();
 
   async function handleSubmit() {
     isLoading.value = true;
 
     try {
       const response = await AuthService.login(user);
+      //   console.log(`Response Login: ${response.ok}`);
 
       if (response.ok) {
-        const responseBody = response.json();
-        console.log(`Response Login: ${responseBody}`);
+        const bodyResponse = response.data;
+        // console.log(`oke : ${bodyResponse}`);
 
-        authStore.authToken = responseBody.data.token;
+        await authStore.setData(bodyResponse.data);
+        await flashStore.setFlash("Login sukses", "success");
         await router.push({ path: "/dashboard" });
       }
     } catch (e) {
@@ -34,7 +39,7 @@ export function useLogin() {
         alertError(e);
       }
     } finally {
-      isLoading.value = true;
+      isLoading.value = false;
     }
   }
 

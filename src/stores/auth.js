@@ -12,34 +12,46 @@ export const useAuthStore = defineStore("auth", () => {
   const isTokenValid = ref(false);
 
   async function checkToken() {
+    //ini digunakan di route untuk guard
+    // console.log(`cekToken start`);
     try {
       const response = await AuthService.getProfile();
 
       const responseBody = await response.json();
       if (!response.ok) {
-        isTokenValid.value = false;
+        // console.log(`Token: gagal`);
         logout();
         return;
       }
-
-      authToken.value = responseBody.data.token;
-      authProfile.value = JSON.stringify(responseBody.data.user);
-      isTokenValid.value = true;
+      // console.log(`Token: ${responseBody.data}`);
+      await setData(responseBody.data);
+      return "OK";
     } catch (e) {
-      isTokenValid.value = false;
       logout();
-      console.log(e);
+      throw e;
     }
+  }
+
+  async function setData(data) {
+    if (data.token) {
+      authToken.value = data.token;
+    }
+    authProfile.value = JSON.stringify(data);
+    isTokenValid.value = true;
   }
 
   function logout() {
     authToken.value = "";
     authProfile.value = "";
+    authProfile.value = "";
+    isTokenValid.value = false;
   }
 
   return {
     authToken,
+    authProfile,
     isTokenValid,
+    setData,
     checkToken,
     logout,
   };
