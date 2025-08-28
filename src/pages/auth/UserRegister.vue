@@ -10,7 +10,7 @@ const { user, handleSubmit, isLoading } = useRegister();
   <div class="max-w-6xl mx-auto px-4 py-10 space-y-12">
     <!-- Register -->
     <section id="view-register" class="animate-fadeUp">
-      <div class="max-w-md mx-auto">
+      <div class="max-w-xl mx-auto">
         <div
           class="p-6 md:p-8 rounded-2xl bg-white/80 dark:bg-neutral-900/70 border border-black/10 dark:border-white/10 card-hover"
         >
@@ -30,6 +30,7 @@ const { user, handleSubmit, isLoading } = useRegister();
                 required
                 v-model="user.name"
                 autocomplete="off"
+                icon="fas fa-user"
               />
               <BaseInput
                 id="regUsername"
@@ -40,18 +41,22 @@ const { user, handleSubmit, isLoading } = useRegister();
                 required
                 v-model="user.username"
                 autocomplete="off"
+                icon="fas fa-user-circle"
               />
             </div>
-            <BaseInput
-              id="regEmail"
-              name="regEmail"
-              label="Email Valid"
-              type="email"
-              required
-              placeholder="you@email.com"
-              v-model="user.email"
-              autocomplete="off"
-            />
+            <div class="grid md:grid-cols-1 gap-4">
+              <BaseInput
+                id="regEmail"
+                name="regEmail"
+                label="Email Valid"
+                type="email"
+                required
+                placeholder="you@email.com"
+                v-model="user.email"
+                autocomplete="off"
+                icon="fas fa-envelope"
+              />
+            </div>
             <div class="grid md:grid-cols-2 gap-4">
               <BaseInput
                 id="regPassword"
@@ -61,15 +66,17 @@ const { user, handleSubmit, isLoading } = useRegister();
                 placeholder="Min. 6 karakter"
                 minlength="6"
                 v-model="user.password"
+                icon="fas fa-lock"
               />
               <BaseInput
                 id="regPassword2"
                 name="regPassword2"
                 label="Ulangi Sandi"
                 type="password"
-                placeholder="Sama seperti password"
+                placeholder="Sama seperti kata sandi"
                 minlength="6"
                 v-model="user.password_confirmation"
+                icon="fas fa-lock"
               />
             </div>
 
