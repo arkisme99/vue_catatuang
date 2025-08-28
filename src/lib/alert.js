@@ -54,13 +54,23 @@ export const alertWarning = async (errors) => {
   });
 };
 
-export const alertConfirm = async (message, textYes, textNo) => {
+export const alertConfirm = async (
+  message,
+  textYes = "Ya",
+  textNo = "Batal"
+) => {
   return Swal.fire({
     icon: "warning",
-    title: "Apakah anda yakin ?",
+    title: "Apakah Anda yakin?",
     text: message,
     showCancelButton: true,
     confirmButtonText: textYes,
     cancelButtonText: textNo,
+    confirmButtonColor: "#e3342f", // merah danger
+    cancelButtonColor: "#6c757d", // abu-abu netral
+    reverseButtons: true, // tombol Batal di kiri
+    focusCancel: true, // default fokus di Batal
+    background: "#fefefe", // warna background modal
+    color: "#333", // warna teks
   });
 };
