@@ -47,7 +47,14 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  // console.log(`val: ${authStore.isTokenValid}`);
+  console.log(`val: ${authStore.isTokenValid}`);
+
+  //cek token ada ga di local storage
+  if (!authStore.authToken) {
+    //jika null / tidak ada paksa logout
+    authStore.logout();
+    // return next({ path: "/login", query: { redirect: to.fullPath } });
+  }
 
   // Refresh token status (jika belum valid)
   if (!authStore.isTokenValid) {
