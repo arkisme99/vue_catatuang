@@ -1,5 +1,5 @@
 import { apiFetch } from "../lib/api";
-import { useAuthStore } from "../stores/auth";
+import { getToken } from "../lib/getToken";
 
 export const AuthService = {
   async register({ name, username, email, password }) {
@@ -25,13 +25,11 @@ export const AuthService = {
 
   async getProfile() {
     //pakai fetch biasa karena apipFetch semua error fetch keluar alert
-    const authStore = useAuthStore();
-    const token = authStore.authToken;
     return await fetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "X-API-TOKEN": token,
+        "X-API-TOKEN": getToken(),
       },
     });
   },

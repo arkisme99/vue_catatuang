@@ -26,23 +26,24 @@ const router = createRouter({
         },
       ],
     },
-    /* {
-            path: '/dashboard',
-            meta: { requiresAuth: true },
-            children: [
-                {
-                    path: '/kategori',
-                    component: Kategori,
-                    meta: { requiresAuth: true }
-                }
-            ]
-        } */
+    {
+      path: "/dashboard",
+      component: Layout,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "kategori",
+          // component: ,
+          meta: { requiresAuth: true },
+        },
+      ],
+    },
   ],
 });
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-
+  // console.log(authStore.isTokenValid);
   // cek apakah route butuh auth
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // cek token jika belum valid
