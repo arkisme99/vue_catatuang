@@ -12,25 +12,30 @@
               >Meja Auth</span
             >
           </h1>
+          <template v-if="isLoggedIn">
+            <h2 class="text-3xl font-bold">Halo, {{ name }} 👋</h2>
+          </template>
           <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-prose">
             Template halaman Login, Register, Home setelah login, dan Profile.
             Responsif, dukung dark mode, dengan animasi hover lembut pada kartu
             & form.
           </p>
-          <div class="flex gap-3">
-            <RouterLink
-              data-route="register"
-              to="/register"
-              class="px-5 py-3 rounded-xl text-white bg-gradient-to-r from-brand-500 to-sunset-600 shadow-soft hover:opacity-90 transition guest:hidden"
-              >Mulai Daftar</RouterLink
-            >
-            <RouterLink
-              data-route="login"
-              to="/login"
-              class="px-5 py-3 rounded-xl border border-black/10 dark:border-white/10 hover:border-brand-500/60 transition guest:hidden"
-              >Masuk</RouterLink
-            >
-          </div>
+          <template v-if="!isLoggedIn">
+            <div class="flex gap-3">
+              <RouterLink
+                data-route="register"
+                to="/register"
+                class="px-5 py-3 rounded-xl text-white bg-gradient-to-r from-brand-500 to-sunset-600 shadow-soft hover:opacity-90 transition"
+                >Mulai Daftar</RouterLink
+              >
+              <RouterLink
+                data-route="login"
+                to="/login"
+                class="px-5 py-3 rounded-xl border border-black/10 dark:border-white/10 hover:border-brand-500/60 transition"
+                >Masuk</RouterLink
+              >
+            </div>
+          </template>
         </div>
         <div
           class="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden card-hover"
@@ -62,6 +67,13 @@
   </main>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from "vue";
+import { useAuthStore } from "../stores/auth";
+
+const authStore = useAuthStore();
+const isLoggedIn = computed(() => authStore.isTokenValid);
+const name = computed(() => authStore.authProfile?.name ?? "Pengguna");
+</script>
 
 <style scoped></style>

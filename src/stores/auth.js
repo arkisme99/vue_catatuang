@@ -36,7 +36,7 @@ export const useAuthStore = defineStore("auth", () => {
     if (data.token) {
       authToken.value = data.token;
     }
-    authProfile.value = JSON.stringify(data);
+    authProfile.value = data;
     isTokenValid.value = true;
   }
 
