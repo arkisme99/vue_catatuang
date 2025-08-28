@@ -1,6 +1,10 @@
-import { handleFetchError } from "./handleError";
+import { handleFetchError } from "@/lib/handleError";
+import { ApiFetchResponse, ApiResponse } from "@/model/ApiModel";
 
-export async function apiFetch(url, options) {
+export async function apiFetch<T extends ApiResponse>(
+  url: string,
+  options: RequestInit
+): Promise<ApiFetchResponse<T>> {
   const response = await fetch(url, options);
 
   const bodyResponse = await response.json();

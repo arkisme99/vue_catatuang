@@ -1,17 +1,18 @@
-import { AuthService } from "../services/AuthService";
+import { useLocalStorage } from "@vueuse/core";
+import { ProfileUser } from "@/model/UserModel";
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { useLocalStorage } from "@vueuse/core";
+import { AuthService } from "@/services/AuthService";
 
 export const useAuthStore = defineStore("auth", () => {
   const PROFILE_KEY = "profile-user";
   const AUTH_TOKEN = "session-token";
 
-  const authToken = useLocalStorage(AUTH_TOKEN, "");
-  const authProfile = useLocalStorage(PROFILE_KEY, "");
-  const isTokenValid = ref(false);
+  const authToken = useLocalStorage<string | null>(AUTH_TOKEN, null);
+  const authProfile = useLocalStorage<ProfileUser | null>(PROFILE_KEY, null);
+  const isTokenValid = ref<boolean>(false);
 
-  async function checkToken() {
+  async function checkToken(): Promise<"OK"> {
     //ini digunakan di route untuk guard
     // console.log(`cekToken start`);
     try {
@@ -19,9 +20,7 @@ export const useAuthStore = defineStore("auth", () => {
 
       const responseBody = await response.json();
       if (!response.ok) {
-        // console.log(`Token: gagal`);
-        logout();
-        return;
+        throw new Error("Invalid token");
       }
       // console.log(`Token: ${responseBody.data}`);
       await setData(responseBody.data);
@@ -32,7 +31,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  async function setData(data) {
+  async function setData(data: ProfileUser): Promise<void> {
     if (data.token) {
       authToken.value = data.token;
     }
@@ -40,10 +39,9 @@ export const useAuthStore = defineStore("auth", () => {
     isTokenValid.value = true;
   }
 
-  function logout() {
-    authToken.value = "";
-    authProfile.value = "";
-    authProfile.value = "";
+  function logout(): void {
+    authToken.value = null;
+    authProfile.value = null;
     isTokenValid.value = false;
   }
 

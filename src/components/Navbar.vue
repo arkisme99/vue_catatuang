@@ -177,13 +177,14 @@
   </header>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { RouterLink } from "vue-router";
-import { useThemeStore } from "../stores/theme";
-import { useAuthStore } from "../stores/auth";
 import { computed, ref } from "vue";
-import { alertConfirm } from "../lib/alert";
-import { useLogout } from "../composable/useLogout";
+import { useAuthStore } from "@/stores/auth";
+import { useThemeStore } from "@/stores/theme";
+import { useLogout } from "@/composable/useLogout";
+import { alertConfirm } from "@/lib/alert";
+import MENUPATH from "@/lib/menuEnum";
 
 const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isTokenValid);
@@ -192,21 +193,21 @@ const { toggleTheme } = useThemeStore();
 
 const { handleLogout } = useLogout();
 
-const isMobileMenuOpen = ref(false);
+const isMobileMenuOpen = ref<boolean>(false);
 
-const pathHome = "/";
-const pathLogin = "/login";
-const pathRegister = "/register";
-const pathDashboard = "/dashboard";
-const pathProfile = "/profile";
-const pathKategori = "/kategori";
+const pathHome: string = MENUPATH.HOME;
+const pathLogin: string = MENUPATH.LOGIN;
+const pathRegister: string = MENUPATH.REGISTER;
+const pathDashboard: string = MENUPATH.DASHBOARD;
+const pathProfile: string = MENUPATH.PROFILE;
+const pathKategori: string = MENUPATH.KATEGORI;
 
-function toggleMobileMenu() {
+function toggleMobileMenu(): void {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 
-async function confirmLogout() {
-  const alConfirm = await alertConfirm(
+async function confirmLogout(): Promise<void> {
+  const alConfirm: { isConfirmed: boolean } = await alertConfirm(
     "Keluar aplikasi sekarang ?",
     "Ya, Keluar",
     "Tidak, Jangan dulu"

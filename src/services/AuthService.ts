@@ -1,9 +1,21 @@
-import { apiFetch } from "../lib/api";
-import { getToken } from "../lib/getToken";
+import { apiFetch } from "@/lib/api";
+import { getToken } from "@/lib/getToken";
+import { ApiFetchResponse, ApiResponse } from "@/model/ApiModel";
+import {
+  CreateUserRequest,
+  CreateUserResponse,
+  LoginUserRequest,
+  LoginUserResponse,
+} from "@/model/UserModel";
 
 export const AuthService = {
-  async register({ name, username, email, password }) {
-    const result = await apiFetch(
+  async register({
+    name,
+    username,
+    email,
+    password,
+  }: CreateUserRequest): Promise<ApiFetchResponse<CreateUserResponse>> {
+    const result = await apiFetch<CreateUserResponse>(
       `${import.meta.env.VITE_API_PATH}/auth/register`,
       {
         method: "POST",
@@ -23,44 +35,46 @@ export const AuthService = {
     return result;
   },
 
-  async login({ username, password }) {
-    const result = await apiFetch(
+  async login(
+    user: LoginUserRequest
+  ): Promise<ApiFetchResponse<LoginUserResponse>> {
+    const result = await apiFetch<LoginUserResponse>(
       `${import.meta.env.VITE_API_PATH}/auth/login`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "X-API-TOKEN": getToken(),
         },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
+        body: JSON.stringify(user),
       }
     );
-    return result;
+
+    return result; // langsung data typed
   },
 
-  async getProfile() {
+  async getProfile(): Promise<Response> {
+    const token = getToken();
     //pakai fetch biasa karena apipFetch semua error fetch keluar alert
     return await fetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
       method: "GET",
       headers: {
         Accept: "application/json",
-        "X-API-TOKEN": getToken(),
+        // "X-API-TOKEN": getToken(),
+        ...(token && { "X-API-TOKEN": token }),
       },
     });
   },
 
   async logout() {
+    const token = getToken();
     const result = await apiFetch(
       `${import.meta.env.VITE_API_PATH}/auth/logout`,
       {
         method: "DELETE",
         headers: {
           Accept: "application/json",
-          "X-API-TOKEN": getToken(),
+          ...(token && { "X-API-TOKEN": token }),
         },
       }
     );

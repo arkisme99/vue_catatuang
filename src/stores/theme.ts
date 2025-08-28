@@ -7,11 +7,11 @@ export const useThemeStore = defineStore("theme", () => {
     window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   );
 
-  function applyTheme(t) {
+  function applyTheme(t: string) {
     document.documentElement.classList.toggle("dark", t === "dark");
   }
 
-  function setTheme(t) {
+  function setTheme(t: string) {
     theme.value = t;
     // localStorage.setItem("pref-theme", t);
     useLocalStorage("pref-theme", t);

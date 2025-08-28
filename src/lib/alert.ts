@@ -1,6 +1,8 @@
-import Swal from "sweetalert2";
+import Swal, { SweetAlertResult } from "sweetalert2";
 
-export const alertSuccess = async (message) => {
+export const alertSuccess = async (
+  message: string
+): Promise<SweetAlertResult> => {
   return Swal.fire({
     toast: true, // mode toast (kecil, pojok)
     position: "top-end", // pojok kanan atas
@@ -19,7 +21,9 @@ export const alertSuccess = async (message) => {
   });
 };
 
-export const alertDanger = async (message) => {
+export const alertDanger = async (
+  message: string
+): Promise<SweetAlertResult> => {
   return Swal.fire({
     toast: true, // mode toast (kecil, pojok)
     position: "top-end", // pojok kanan atas
@@ -38,7 +42,9 @@ export const alertDanger = async (message) => {
   });
 };
 
-export const alertError = async (message) => {
+export const alertError = async (
+  message: string
+): Promise<SweetAlertResult> => {
   return Swal.fire({
     icon: "error",
     title: "Ups !",
@@ -46,7 +52,7 @@ export const alertError = async (message) => {
   });
 };
 
-export const alertWarning = async (errors) => {
+export const alertWarning = async (errors: any): Promise<SweetAlertResult> => {
   return Swal.fire({
     icon: "warning",
     title: "Ups !",
@@ -55,10 +61,10 @@ export const alertWarning = async (errors) => {
 };
 
 export const alertConfirm = async (
-  message,
+  message: string,
   textYes = "Ya",
   textNo = "Batal"
-) => {
+): Promise<SweetAlertResult> => {
   return Swal.fire({
     icon: "warning",
     title: "Apakah Anda yakin?",

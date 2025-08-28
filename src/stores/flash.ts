@@ -2,10 +2,10 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useFlashStore = defineStore("flash", () => {
-  const message = ref(null);
-  const type = ref(null);
+  const message = ref<string | null>(null);
+  const type = ref<string | null>(null);
 
-  async function setFlash(msg, flashType) {
+  async function setFlash(msg: string, flashType: string) {
     message.value = msg;
     type.value = flashType;
   }

@@ -1,8 +1,9 @@
+import { alertError } from "@/lib/alert";
+import { CreateUserResponse } from "@/model/UserModel";
+import { AuthService } from "@/services/AuthService";
+import { useFlashStore } from "@/stores/flash";
 import { reactive, ref } from "vue";
-import { AuthService } from "../services/AuthService";
-import { alertError } from "../lib/alert";
 import { useRouter } from "vue-router";
-import { useFlashStore } from "../stores/flash";
 
 export function useRegister() {
   const user = reactive({
@@ -13,23 +14,25 @@ export function useRegister() {
     password_confirmation: "",
   });
 
-  const isLoading = ref(false);
+  const isLoading = ref<boolean>(false);
   const router = useRouter();
   const flashStore = useFlashStore();
 
-  async function handleSubmit() {
+  const { setFlash } = flashStore;
+
+  async function handleSubmit(): Promise<void> {
     if (user.password !== user.password_confirmation) {
-      alertError("Password dan konfirmasi password tidak sama");
+      await alertError("Password dan konfirmasi password tidak sama");
       return;
     }
 
     isLoading.value = true;
     try {
-      const response = await AuthService.register(user);
+      const response: { ok: boolean; data: CreateUserResponse } =
+        await AuthService.register(user);
       // console.log(`Response: ${response}`);
       if (response.ok) {
-        await flashStore.setFlash("Pendaftaran berhasil", "success");
-
+        await setFlash("Pendaftaran berhasil", "success");
         await router.push({
           path: "/login",
         });
@@ -37,9 +40,10 @@ export function useRegister() {
     } catch (e) {
       if (e instanceof Promise) {
         //tidak eksekusi apapun karena sudah dihandle sama apiFetch
+      } else if (e instanceof Error) {
+        alertError(e.message);
       } else {
-        console.log(e);
-        alertError(e);
+        alertError(String(e));
       }
     } finally {
       isLoading.value = false;
