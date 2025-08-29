@@ -3,9 +3,11 @@
     <button
       :id="id"
       :type="type"
-      class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white bg-gradient-to-r from-brand-500 to-sunset-600 shadow-soft hover:opacity-90 transition"
+      class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white bg-gradient-to-r from-brand-500 to-sunset-600 shadow-soft hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
       v-bind="attrs"
-      :disabled="loading || attrs.disabled"
+      :disabled="loading"
+      :aria-busy="loading"
+      :aria-disabled="loading"
     >
       <template v-if="loading">
         <LoadingIcon />
@@ -17,7 +19,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { useAttrs } from "vue";
 import LoadingIcon from "./LoadingIcon.vue";
 
@@ -27,7 +29,10 @@ defineOptions({
 
 const props = defineProps({
   label: { type: String, required: false },
-  type: { type: String, default: "submit" },
+  type: {
+    type: String as () => "submit" | "reset" | "button",
+    default: "submit",
+  },
   id: { type: String, default: "btnSubmit" },
   loading: { type: Boolean, default: false },
 });

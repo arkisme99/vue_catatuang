@@ -40,11 +40,11 @@
   </SectionBoxMain>
 </template>
 
-<script setup>
-import BaseInput from "../../components/BaseInput.vue";
-import ButtonSubmit from "../../components/ButtonSubmit.vue";
-import SectionBoxMain from "../../components/SectionBoxMain.vue";
-import { useLogin } from "../../composable/useLogin";
+<script lang="ts" setup>
+import BaseInput from "@/components/BaseInput.vue";
+import ButtonSubmit from "@/components/ButtonSubmit.vue";
+import SectionBoxMain from "@/components/SectionBoxMain.vue";
+import { useLogin } from "@/composable/useLogin";
 
 const { user, isLoading, handleSubmit } = useLogin();
 </script>

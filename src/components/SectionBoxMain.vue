@@ -15,7 +15,7 @@
   </section>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 defineProps({
   wmax: { type: String, default: "max-w-md" },
   id: { type: String, required: true },

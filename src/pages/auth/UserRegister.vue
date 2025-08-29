@@ -1,8 +1,8 @@
-<script setup>
-import BaseInput from "../../components/BaseInput.vue";
-import ButtonSubmit from "../../components/ButtonSubmit.vue";
-import SectionBoxMain from "../../components/SectionBoxMain.vue";
-import { useRegister } from "../../composable/useRegister";
+<script lang="ts" setup>
+import BaseInput from "@/components/BaseInput.vue";
+import ButtonSubmit from "@/components/ButtonSubmit.vue";
+import SectionBoxMain from "@/components/SectionBoxMain.vue";
+import { useRegister } from "@/composable/useRegister";
 
 const { user, handleSubmit, isLoading } = useRegister();
 </script>

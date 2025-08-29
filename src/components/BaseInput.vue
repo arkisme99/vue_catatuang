@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { nextTick, onMounted } from "vue";
 import { computed, ref, useAttrs } from "vue";
 import { onBeforeRouteLeave } from "vue-router";
@@ -58,7 +58,7 @@ const modelValueLocal = computed({
 const attrs = useAttrs();
 
 // Fokus otomatis ketika komponen dirender
-const inputEl = ref(null);
+const inputEl = ref<HTMLElement | null>(null);
 
 onMounted(async () => {
   if (props.afocus) {

@@ -67,9 +67,9 @@
   </main>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { useAuthStore } from "@/stores/auth";
 import { computed } from "vue";
-import { useAuthStore } from "../stores/auth";
 
 const authStore = useAuthStore();
 const isLoggedIn = computed(() => authStore.isTokenValid);

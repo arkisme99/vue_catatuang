@@ -1,7 +1,7 @@
-<script setup>
+<script lang="ts" setup>
 import { onBeforeMount } from "vue";
 import Navbar from "./Navbar.vue";
-import { useThemeStore } from "../stores/theme";
+import { useThemeStore } from "@/stores/theme";
 
 // Jalankan saat komponen mount
 onBeforeMount(async () => {
