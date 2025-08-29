@@ -7,6 +7,7 @@ import UserRegister from "@/pages/auth/UserRegister.vue";
 import UserLogin from "@/pages/auth/UserLogin.vue";
 import { alertDanger, alertSuccess } from "@/lib/alert";
 import Dashboard from "@/pages/Dashboard.vue";
+import Profile from "@/pages/auth/Profile.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,7 +41,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: "profile",
-        component: Home,
+        component: Profile,
       },
       {
         path: "kategori",

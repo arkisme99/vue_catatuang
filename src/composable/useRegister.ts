@@ -1,4 +1,5 @@
-import { alertError } from "@/lib/alert";
+import { alertError, handleError } from "@/lib/alert";
+import MENUPATH from "@/lib/menuEnum";
 import { CreateUserResponse } from "@/model/UserModel";
 import { AuthService } from "@/services/AuthService";
 import { useFlashStore } from "@/stores/flash";
@@ -34,17 +35,11 @@ export function useRegister() {
       if (response.ok) {
         await setFlash("Pendaftaran berhasil", "success");
         await router.push({
-          path: "/login",
+          path: MENUPATH.LOGIN,
         });
       }
     } catch (e) {
-      if (e instanceof Promise) {
-        //tidak eksekusi apapun karena sudah dihandle sama apiFetch
-      } else if (e instanceof Error) {
-        alertError(e.message);
-      } else {
-        alertError(String(e));
-      }
+      handleError(e);
     } finally {
       isLoading.value = false;
     }

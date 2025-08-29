@@ -6,7 +6,6 @@ import { useThemeStore } from "@/stores/theme";
 // Jalankan saat komponen mount
 onBeforeMount(async () => {
   const themeStore = useThemeStore();
-  // console.log(`Theme: ${themeStore.theme}`);
   themeStore.applyTheme(themeStore.theme);
 });
 </script>

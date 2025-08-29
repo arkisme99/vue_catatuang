@@ -19,26 +19,6 @@ export const useAuthStore = defineStore("auth", () => {
       logout();
     }
   });
-
-  /* async function checkToken(): Promise<void> {
-    if (!authToken.value) {
-      await AuthService.logout();
-      logout();
-    }
-    try {
-      const response = await AuthService.getProfile();
-
-      const responseBody = await response.json();
-      if (!response.ok) {
-        return;
-      }
-      setData(responseBody.data);
-    } catch (e) {
-      await AuthService.logout();
-      logout();
-      throw e;
-    }
-  } */
   async function checkTokenOnMain(): Promise<void> {
     if (!authToken.value) {
       logout();

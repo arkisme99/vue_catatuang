@@ -1,6 +1,6 @@
-import { alertError } from "@/lib/alert";
-import { ApiFetchResponse, ApiResponse } from "@/model/ApiModel";
-import { LoginUserResponse, ProfileUser } from "@/model/UserModel";
+import { alertError, handleError } from "@/lib/alert";
+import MENUPATH from "@/lib/menuEnum";
+import { LoginUserResponse } from "@/model/UserModel";
 import { AuthService } from "@/services/AuthService";
 import { useAuthStore } from "@/stores/auth";
 import { useFlashStore } from "@/stores/flash";
@@ -37,17 +37,12 @@ export function useLogin() {
         await setFlash("Login sukses", "success");
         // await router.push({ path: "/dashboard" });
         const redirect =
-          (router.currentRoute.value.query.redirect as string) || "/dashboard";
+          (router.currentRoute.value.query.redirect as string) ||
+          MENUPATH.DASHBOARD;
         await router.push(redirect);
       }
     } catch (e: unknown) {
-      if (e instanceof Promise) {
-        //tidak eksekusi apapun karena sudah dihandle sama apiFetch
-      } else if (e instanceof Error) {
-        alertError(e.message);
-      } else {
-        alertError(String(e));
-      }
+      handleError(e);
     } finally {
       isLoading.value = false;
     }

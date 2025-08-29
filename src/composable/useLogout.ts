@@ -1,4 +1,4 @@
-import { alertError } from "@/lib/alert";
+import { alertError, handleError } from "@/lib/alert";
 import { AuthService } from "@/services/AuthService";
 import { useAuthStore } from "@/stores/auth";
 import { useFlashStore } from "@/stores/flash";
@@ -23,13 +23,8 @@ export function useLogout() {
           path: "/login",
         });
       }
-    } catch (e: unknown) {
-      if (e instanceof Promise) {
-      } else if (e instanceof Error) {
-        alertError(e.message);
-      } else {
-        alertError(String(e));
-      }
+    } catch (e) {
+      handleError(e);
     } finally {
       isLoading.value = false;
     }

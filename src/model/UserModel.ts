@@ -32,3 +32,14 @@ export interface ProfileUser extends BaseUser {
   created_at: string;
   updated_at: string;
 }
+
+export interface UpdateProfileRequest {
+  name?: string;
+  email?: string;
+  avatar?: string;
+  password?: string;
+}
+
+export interface UpdateProfileResponse extends ApiResponse {
+  data: ProfileUser;
+}

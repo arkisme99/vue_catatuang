@@ -80,3 +80,17 @@ export const alertConfirm = async (
     color: "#333", // warna teks
   });
 };
+
+export function handleError(e: unknown) {
+  if (e instanceof Promise) {
+    // tidak perlu eksekusi karena sudah di-handle di apiFetch
+    return;
+  }
+
+  if (e instanceof Error) {
+    alertError(e.message);
+    return;
+  }
+
+  alertError(String(e));
+}

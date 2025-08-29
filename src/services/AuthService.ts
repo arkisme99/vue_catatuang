@@ -6,6 +6,8 @@ import {
   CreateUserResponse,
   LoginUserRequest,
   LoginUserResponse,
+  UpdateProfileRequest,
+  UpdateProfileResponse,
 } from "@/model/UserModel";
 
 export const AuthService = {
@@ -63,6 +65,21 @@ export const AuthService = {
         // "X-API-TOKEN": getToken(),
         ...(token && { "X-API-TOKEN": token }),
       },
+    });
+  },
+
+  async updateProfile(
+    user: UpdateProfileRequest
+  ): Promise<ApiFetchResponse<UpdateProfileResponse>> {
+    const token = getToken();
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...(token && { "X-API-TOKEN": token }),
+      },
+      body: JSON.stringify(user),
     });
   },
 

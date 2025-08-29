@@ -187,6 +187,7 @@ import { alertConfirm } from "@/lib/alert";
 import MENUPATH from "@/lib/menuEnum";
 
 const authStore = useAuthStore();
+
 const isLoggedIn = computed(() => authStore.isTokenValid);
 
 const { toggleTheme } = useThemeStore();
