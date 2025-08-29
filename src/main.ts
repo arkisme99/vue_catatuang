@@ -11,7 +11,7 @@ app.use(pinia);
 
 // Check token saat app start
 const authStore = useAuthStore();
-await authStore.checkToken();
+await authStore.checkTokenOnMain();
 console.log(`main: ${authStore.isTokenValid}`);
 
 app.use(router);

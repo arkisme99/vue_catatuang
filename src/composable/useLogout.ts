@@ -7,9 +7,9 @@ import { useRouter } from "vue-router";
 
 export function useLogout() {
   const isLoading = ref<boolean>(false);
-  const router = useRouter();
   const authStore = useAuthStore();
   const flashStore = useFlashStore();
+  const router = useRouter();
 
   async function handleLogout(): Promise<void> {
     isLoading.value = true;
@@ -19,7 +19,9 @@ export function useLogout() {
       if (response.ok) {
         authStore.logout();
         await flashStore.setFlash("Logout sistem sukses", "success");
-        await router.push({ path: "/login" });
+        await router.push({
+          path: "/login",
+        });
       }
     } catch (e: unknown) {
       if (e instanceof Promise) {

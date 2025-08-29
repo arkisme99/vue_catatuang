@@ -58,6 +58,7 @@ router.beforeEach(async (to, from, next) => {
   console.log(`cekrutt: ${authStore.isTokenValid}`);
   // Route butuh login
   if (to.meta.requiresAuth && !authStore.isTokenValid) {
+    authStore.logout(); //bersihkan state auth
     setFlash("Login dulu kanda...!", "danger");
     return next({ path: "/login", query: { redirect: to.fullPath } });
   }
