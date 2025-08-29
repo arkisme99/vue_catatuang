@@ -3,8 +3,8 @@ const MENUPATH = {
   LOGIN: "/login",
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
-  PROFILE: "/profile",
-  KATEGORI: "/kategori",
+  PROFILE: "/dashboard/profile",
+  KATEGORI: "/dashboard/kategori",
 } as const;
 
 export default MENUPATH;

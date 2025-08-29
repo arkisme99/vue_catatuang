@@ -33,9 +33,12 @@ export function useLogin() {
         const bodyResponse = response.data;
         // console.log(`oke : ${bodyResponse}`);
 
-        await setData(bodyResponse.data);
+        setData(bodyResponse.data);
         await setFlash("Login sukses", "success");
-        await router.push({ path: "/dashboard" });
+        // await router.push({ path: "/dashboard" });
+        const redirect =
+          (router.currentRoute.value.query.redirect as string) || "/dashboard";
+        await router.push(redirect);
       }
     } catch (e: unknown) {
       if (e instanceof Promise) {

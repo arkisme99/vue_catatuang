@@ -6,23 +6,24 @@ import Home from "@/pages/Home.vue";
 import UserRegister from "@/pages/auth/UserRegister.vue";
 import UserLogin from "@/pages/auth/UserLogin.vue";
 import { alertDanger, alertSuccess } from "@/lib/alert";
+import Dashboard from "@/pages/Dashboard.vue";
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: Layout,
     children: [
       {
-        path: "/",
+        path: "",
         component: Home,
       },
       {
-        path: "/register",
+        path: "register",
         component: UserRegister,
         meta: { guestOnly: true },
       },
       {
-        path: "/login",
+        path: "login",
         component: UserLogin,
         meta: { guestOnly: true },
       },
@@ -34,9 +35,16 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
     children: [
       {
+        path: "",
+        component: Dashboard,
+      },
+      {
+        path: "profile",
+        component: Home,
+      },
+      {
         path: "kategori",
         component: Home,
-        meta: { requiresAuth: true },
       },
     ],
   },
