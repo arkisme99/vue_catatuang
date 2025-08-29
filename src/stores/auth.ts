@@ -20,7 +20,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
   });
 
-  async function checkToken(): Promise<void> {
+  /* async function checkToken(): Promise<void> {
     if (!authToken.value) {
       await AuthService.logout();
       logout();
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore("auth", () => {
       logout();
       throw e;
     }
-  }
+  } */
   async function checkTokenOnMain(): Promise<void> {
     if (!authToken.value) {
       logout();
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
     authProfile.value = data;
     isTokenValid.value = true;
-    console.log(`setData: ${isTokenValid.value}`);
+    // console.log(`setData: ${isTokenValid.value}`);
   }
 
   function logout(): void {
@@ -77,7 +77,7 @@ export const useAuthStore = defineStore("auth", () => {
     authProfile,
     isTokenValid,
     setData,
-    checkToken,
+    // checkToken,
     checkTokenOnMain,
     logout,
   };

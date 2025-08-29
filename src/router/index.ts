@@ -53,8 +53,6 @@ router.beforeEach(async (to, from, next) => {
   const flashStore = useFlashStore();
   const { setFlash } = flashStore;
 
-  // if (!isTokenValid) await checkToken();
-
   console.log(`cekrutt: ${authStore.isTokenValid}`);
   // Route butuh login
   if (to.meta.requiresAuth && !authStore.isTokenValid) {
