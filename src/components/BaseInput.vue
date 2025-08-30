@@ -1,6 +1,7 @@
 <template>
   <div class="w-full mx-auto max-w-sm sm:max-w-md md:max-w-xl lg:max-w-6xl">
     <label
+      v-if="label"
       :for="id"
       class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300"
     >
@@ -38,7 +39,7 @@ defineOptions({
 const props = defineProps({
   id: { type: String, required: true },
   name: { type: String, required: true },
-  label: { type: String, required: true },
+  label: { type: String, required: false },
   placeholder: { type: String, default: "" },
   type: { type: String, default: "text" },
   modelValue: { type: String, default: "" },
