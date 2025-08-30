@@ -3,10 +3,10 @@
   <SectionGrid id="profile" title="Profile" cols="4">
     <BoxCard classnew="md:col-span-1">
       <div class="flex items-center gap-4">
-        <AvatarInitial :initials="initialsName(user.name)" />
+        <AvatarInitial :initials="initialsName(authProfile?.name ?? '')" />
         <div>
-          <p class="font-semibold">{{ user.name }}</p>
-          <p class="text-sm text-neutral-500">{{ user.email }}</p>
+          <p class="font-semibold">{{ authProfile?.name }}</p>
+          <p class="text-sm text-neutral-500">{{ authProfile?.email }}</p>
         </div>
       </div>
     </BoxCard>
@@ -63,7 +63,12 @@
             </ButtonSave>
           </div>
         </form>
-        <form id="passwordForm" class="space-y-4 animate-slideToRight" v-else>
+        <form
+          id="passwordForm"
+          class="space-y-4 animate-slideToRight"
+          v-else
+          v-on:submit.prevent="handleSubmitProfile"
+        >
           <div class="grid md:grid-cols-2 gap-4">
             <BaseInput
               label="Password Baru"
@@ -113,7 +118,8 @@ import { ref } from "vue";
 
 const activeTab = ref<string>("profil");
 
-const { user, isLoading, getProfile, handleSubmitProfile } = useProfile();
+const { user, isLoading, getProfile, handleSubmitProfile, authProfile } =
+  useProfile();
 
 getProfile();
 </script>
