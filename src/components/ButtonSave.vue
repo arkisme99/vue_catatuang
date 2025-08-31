@@ -1,9 +1,9 @@
 <template>
-  <div class="w-full mx-auto max-w-sm sm:max-w-md md:max-w-xl lg:max-w-6xl">
+  <div class="max-w-sm sm:max-w-md md:max-w-xl lg:max-w-6xl">
     <button
       :id="id"
       :type="type"
-      class="flex items-center justify-center gap-2 w-full py-1.5 rounded-xl text-white bg-gradient-to-r from-success-500 to-success-500 shadow-soft hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
+      class="flex items-center justify-center gap-2 py-1.5 px-3 rounded-xl text-white bg-gradient-to-r from-success-500 to-success-500 shadow-soft hover:opacity-90 transition disabled:opacity-60 disabled:cursor-not-allowed"
       v-bind="attrs"
       :disabled="loading"
       :aria-busy="loading"
