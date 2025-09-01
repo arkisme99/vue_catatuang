@@ -9,6 +9,7 @@ import { alertDanger, alertSuccess } from "@/lib/alert";
 import Dashboard from "@/pages/Dashboard.vue";
 import Profile from "@/pages/auth/Profile.vue";
 import Category from "@/pages/category/Category.vue";
+import CategoryCreate from "@/pages/category/CategoryCreate.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -48,6 +49,10 @@ const routes: RouteRecordRaw[] = [
         path: "kategori",
         component: Category,
       },
+      {
+        path: "kategori/create",
+        component: CategoryCreate,
+      },
     ],
   },
 ];
@@ -63,7 +68,7 @@ router.beforeEach(async (to, from, next) => {
   const flashStore = useFlashStore();
   const { setFlash } = flashStore;
 
-  console.log(`cekrutt: ${authStore.isTokenValid}`);
+  // console.log(`cekrutt: ${authStore.isTokenValid}`);
   // Route butuh login
   if (to.meta.requiresAuth && !authStore.isTokenValid) {
     authStore.logout(); //bersihkan state auth

@@ -1,3 +1,4 @@
+import { CategoryTypeEnum } from "@/lib/categoryTypeEnum";
 import { ApiResponse } from "./ApiModel";
 
 export interface Category {
@@ -16,6 +17,15 @@ export interface SearchCategoryRequest {
   size?: number;
 }
 
-export interface CategoryResponse extends ApiResponse {
+export interface CreateCategoryRequest {
+  name: string;
+  type: CategoryTypeEnum;
+}
+
+export interface CategoryListResponse extends ApiResponse {
   data: Category[];
+}
+
+export interface CategoryResponse extends ApiResponse {
+  data: Category;
 }

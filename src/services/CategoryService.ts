@@ -1,7 +1,12 @@
 import { apiFetch } from "@/lib/api";
 import { getToken } from "@/lib/getToken";
 import { ApiFetchResponse } from "@/model/ApiModel";
-import { CategoryResponse, SearchCategoryRequest } from "@/model/CategoryModel";
+import {
+  CategoryListResponse,
+  CategoryResponse,
+  CreateCategoryRequest,
+  SearchCategoryRequest,
+} from "@/model/CategoryModel";
 
 export const CategoryService = {
   async search({
@@ -9,7 +14,7 @@ export const CategoryService = {
     type,
     page,
     size,
-  }: SearchCategoryRequest): Promise<ApiFetchResponse<CategoryResponse>> {
+  }: SearchCategoryRequest): Promise<ApiFetchResponse<CategoryListResponse>> {
     const token = getToken();
 
     let url = `${import.meta.env.VITE_API_PATH}/categories`;
@@ -32,12 +37,27 @@ export const CategoryService = {
       url += `?${params.toString()}`;
     }
 
-    return await apiFetch<CategoryResponse>(url, {
+    return await apiFetch<CategoryListResponse>(url, {
       method: "GET",
       headers: {
         Accept: "application/json",
         ...(token && { "X-API-TOKEN": token }),
       },
+    });
+  },
+
+  async create(
+    category: CreateCategoryRequest
+  ): Promise<ApiFetchResponse<CategoryResponse>> {
+    const token = getToken();
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...(token && { "X-API-TOKEN": token }),
+      },
+      body: JSON.stringify(category),
     });
   },
 };

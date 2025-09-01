@@ -34,7 +34,7 @@
       <div class="w-full mx-auto max-w-sm sm:max-w-md md:max-w-xl lg:max-w-6xl">
         <div class="flex justify-between items-center mb-4">
           <h4 class="text-xl font-semibold mb-6">Data Kategori</h4>
-          <ButtonSave><i class="fas fa-add"></i> Tambah Data </ButtonSave>
+          <ButtonAdd :to="`${MENUPATH.KATEGORI}/create`">Tambah Data</ButtonAdd>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
         >{{ category.updated_at }}</span
       >
       <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
+        <ButtonEdit :to="`${MENUPATH.KATEGORI}/${category.id}/edit`" />
         <ButtonDelete />
       </div>
     </BoxCard>
@@ -63,13 +63,14 @@
 <script setup lang="ts">
 import BaseInput from "@/components/BaseInput.vue";
 import BoxCard from "@/components/BoxCard.vue";
+import ButtonAdd from "@/components/ButtonAdd.vue";
 import ButtonDelete from "@/components/ButtonDelete.vue";
 import ButtonEdit from "@/components/ButtonEdit.vue";
-import ButtonSave from "@/components/ButtonSave.vue";
 import ButtonSubmit from "@/components/ButtonSubmit.vue";
 import Pagination from "@/components/Pagination.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
 import { useCategoryIndex } from "@/composable/category/useCategoryIndex";
+import MENUPATH from "@/lib/menuEnum";
 import { onBeforeMount } from "vue";
 
 const { loadData, cateList } = useCategoryIndex();

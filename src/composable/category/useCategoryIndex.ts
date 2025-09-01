@@ -1,5 +1,5 @@
-import { alertError, handleError } from "@/lib/alert";
-import { Category, CategoryResponse } from "@/model/CategoryModel";
+import { handleError } from "@/lib/alert";
+import { Category, CategoryListResponse } from "@/model/CategoryModel";
 import { CategoryService } from "@/services/CategoryService";
 import { reactive, ref } from "vue";
 
@@ -19,7 +19,7 @@ export function useCategoryIndex() {
     isLoading.value = true;
 
     try {
-      const response: { ok: boolean; data: CategoryResponse } =
+      const response: { ok: boolean; data: CategoryListResponse } =
         await CategoryService.search({
           name: category.name,
           type: category.type,

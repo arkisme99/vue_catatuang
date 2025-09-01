@@ -8,6 +8,7 @@
         <button
           v-if="toggleBtn"
           @click="isOpen = !isOpen"
+          :isOpen="isOpen"
           class="px-3 py-1 text-sm dark:text-white hover:opacity-90 transition"
         >
           <i v-if="isOpen" class="fas fa-chevron-up"></i>
@@ -29,9 +30,10 @@ const props = defineProps({
   classnew: { type: String, default: "" },
   title: { type: String, default: "" },
   toggleBtn: { type: Boolean, default: false },
+  isOpen: { type: Boolean, default: false },
 });
 
-const isOpen = ref(false);
+const isOpen = ref(props.isOpen);
 </script>
 
 <style scoped>
