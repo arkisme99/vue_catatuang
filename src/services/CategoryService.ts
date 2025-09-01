@@ -66,10 +66,36 @@ export const CategoryService = {
     return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
       method: "DELETE",
       headers: {
+        Accept: "application/json",
+        ...(token && { "X-API-TOKEN": token }),
+      },
+    });
+  },
+
+  async get(id: number): Promise<ApiFetchResponse<CategoryResponse>> {
+    const token = getToken();
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        ...(token && { "X-API-TOKEN": token }),
+      },
+    });
+  },
+
+  async update(
+    id: number,
+    category: CreateCategoryRequest
+  ): Promise<ApiFetchResponse<CategoryResponse>> {
+    const token = getToken();
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
+      method: "PUT",
+      headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         ...(token && { "X-API-TOKEN": token }),
       },
+      body: JSON.stringify(category),
     });
   },
 };

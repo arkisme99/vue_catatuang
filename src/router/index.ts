@@ -10,6 +10,7 @@ import Dashboard from "@/pages/Dashboard.vue";
 import Profile from "@/pages/auth/Profile.vue";
 import Category from "@/pages/category/Category.vue";
 import CategoryCreate from "@/pages/category/CategoryCreate.vue";
+import CategoryEdit from "@/pages/category/CategoryEdit.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -52,6 +53,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: "kategori/create",
         component: CategoryCreate,
+      },
+      {
+        path: "kategori/:id/edit",
+        component: CategoryEdit,
       },
     ],
   },
