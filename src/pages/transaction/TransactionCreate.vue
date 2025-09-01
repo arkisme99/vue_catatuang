@@ -1,10 +1,10 @@
 <template>
   <SectionGrid
     id="category"
-    title="Tambah Kategori"
+    title="Tambah Transaksi"
     cols="3"
     :back-button="true"
-    :back-button-to="MENUPATH.KATEGORI"
+    :back-button-to="MENUPATH.TRANSAKSI"
   >
     <BoxCard
       classnew="md:col-span-3 mb-10"
@@ -19,14 +19,34 @@
       >
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
-            label="Nama Kategori"
+            label="Tanggal Transaksi"
             id="pfName"
             name="pfName"
             type="text"
-            placeholder="Nama Kategori"
+            placeholder="Cari Tanggal Transaksi"
             autocomplete="off"
-            icon="fas fa-box"
-            :afocus="true"
+            icon="fas fa-calendar-alt"
+            v-model="category.name"
+          />
+          <BaseInput
+            label="Tipe Deskripsi"
+            id="pfTipe"
+            name="pfTipe"
+            placeholder="Cari Deskripsi"
+            autocomplete="off"
+            icon="fas fa-file-text"
+            v-model="category.type"
+          />
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <BaseInput
+            label="Total"
+            id="pfName"
+            name="pfName"
+            type="text"
+            placeholder="Cari Total"
+            autocomplete="off"
+            icon="fas fa-cash-register"
             v-model="category.name"
           />
           <BaseSelect
