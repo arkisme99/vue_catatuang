@@ -2,7 +2,7 @@
   <SectionGrid id="category" title="Kategori" cols="3">
     <BoxCard classnew="md:col-span-3 mb-10" title="Pencarian" toggleBtn>
       <form
-        v-on:submit.prevent="loadData"
+        v-on:submit.prevent="handleSearch"
         id="searchForm"
         class="space-y-4 animate-slideToRight"
       >
@@ -63,7 +63,12 @@
       </div>
     </BoxCard>
     <div class="md:col-span-3">
-      <Pagination />
+      <Pagination
+        :page="page"
+        :totalPage="totalPage"
+        :pages="pages"
+        :handlePage="handleChangePage"
+      />
     </div>
   </SectionGrid>
 </template>
@@ -81,7 +86,17 @@ import { useCategoryIndex } from "@/composable/category/useCategoryIndex";
 import MENUPATH from "@/lib/menuEnum";
 import { onBeforeMount } from "vue";
 
-const { isLoading, loadData, cateList, category } = useCategoryIndex();
+const {
+  isLoading,
+  loadData,
+  cateList,
+  category,
+  page,
+  totalPage,
+  pages,
+  handleChangePage,
+  handleSearch,
+} = useCategoryIndex();
 
 onBeforeMount(async () => {
   loadData();

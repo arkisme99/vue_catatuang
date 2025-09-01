@@ -24,6 +24,11 @@ export interface CreateCategoryRequest {
 
 export interface CategoryListResponse extends ApiResponse {
   data: Category[];
+  paging: {
+    current_page: number;
+    total_page: number;
+    size: number;
+  };
 }
 
 export interface CategoryResponse extends ApiResponse {
