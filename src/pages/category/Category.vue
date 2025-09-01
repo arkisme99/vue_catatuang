@@ -1,7 +1,11 @@
 <template>
   <SectionGrid id="category" title="Kategori" cols="3">
     <BoxCard classnew="md:col-span-3 mb-10" title="Pencarian" toggleBtn>
-      <form id="profileForm" class="space-y-4 animate-slideToRight">
+      <form
+        v-on:submit.prevent="loadData"
+        id="searchForm"
+        class="space-y-4 animate-slideToRight"
+      >
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
             label="Nama Kategori"
@@ -11,6 +15,7 @@
             placeholder="Cari Nama Kategori"
             autocomplete="off"
             icon="fas fa-box"
+            v-model="category.name"
           />
           <BaseInput
             label="Tipe Kategori"
@@ -19,6 +24,7 @@
             placeholder="Masukan Email Valid (Opsional)"
             autocomplete="off"
             icon="fas fa-tags"
+            v-model="category.type"
           />
         </div>
         <div class="grid md:grid-cols-5 gap-4">
@@ -26,7 +32,9 @@
           <div></div>
           <div></div>
           <div></div>
-          <ButtonSubmit> <i class="fas fa-search"></i> Cari </ButtonSubmit>
+          <ButtonSubmit :loading="isLoading">
+            <i class="fas fa-search"></i> Cari
+          </ButtonSubmit>
         </div>
       </form>
     </BoxCard>
@@ -73,7 +81,7 @@ import { useCategoryIndex } from "@/composable/category/useCategoryIndex";
 import MENUPATH from "@/lib/menuEnum";
 import { onBeforeMount } from "vue";
 
-const { loadData, cateList } = useCategoryIndex();
+const { isLoading, loadData, cateList, category } = useCategoryIndex();
 
 onBeforeMount(async () => {
   loadData();

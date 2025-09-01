@@ -39,5 +39,5 @@ export function useCategoryIndex() {
 
   //search category
 
-  return { isLoading, loadData, cateList };
+  return { isLoading, loadData, cateList, category };
 }
