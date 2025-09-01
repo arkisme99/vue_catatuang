@@ -5,6 +5,7 @@ const MENUPATH = {
   DASHBOARD: "/dashboard",
   PROFILE: "/dashboard/profile",
   KATEGORI: "/dashboard/kategori",
+  TRANSAKSI: "/dashboard/transaksi",
 } as const;
 
 export default MENUPATH;

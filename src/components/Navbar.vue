@@ -38,6 +38,11 @@
             >Kategori</RouterLink
           >
           <RouterLink
+            :to="pathTransaksi"
+            class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+            >Transaksi</RouterLink
+          >
+          <RouterLink
             to="#"
             id="logoutBtnMobile"
             @click.prevent="confirmLogout"
@@ -152,6 +157,11 @@
               >Kategori</RouterLink
             >
             <RouterLink
+              :to="pathTransaksi"
+              class="px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition"
+              >Transaksi</RouterLink
+            >
+            <RouterLink
               id="logoutBtnMobile"
               to="#"
               @click.prevent="confirmLogout"
@@ -202,6 +212,7 @@ const pathRegister: string = MENUPATH.REGISTER;
 const pathDashboard: string = MENUPATH.DASHBOARD;
 const pathProfile: string = MENUPATH.PROFILE;
 const pathKategori: string = MENUPATH.KATEGORI;
+const pathTransaksi: string = MENUPATH.TRANSAKSI;
 
 function toggleMobileMenu(): void {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;

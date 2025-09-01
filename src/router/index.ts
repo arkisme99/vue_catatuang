@@ -11,6 +11,9 @@ import Profile from "@/pages/auth/Profile.vue";
 import Category from "@/pages/category/Category.vue";
 import CategoryCreate from "@/pages/category/CategoryCreate.vue";
 import CategoryEdit from "@/pages/category/CategoryEdit.vue";
+import Transaction from "@/pages/transaction/Transaction.vue";
+import TransactionCreate from "@/pages/transaction/TransactionCreate.vue";
+import TransactionEdit from "@/pages/transaction/TransactionEdit.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -57,6 +60,18 @@ const routes: RouteRecordRaw[] = [
       {
         path: "kategori/:id/edit",
         component: CategoryEdit,
+      },
+      {
+        path: "transaksi",
+        component: Transaction,
+      },
+      {
+        path: "transaksi/create",
+        component: TransactionCreate,
+      },
+      {
+        path: "transaksi/:id/edit",
+        component: TransactionEdit,
       },
     ],
   },
