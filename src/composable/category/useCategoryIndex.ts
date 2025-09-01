@@ -1,5 +1,9 @@
-import { handleError } from "@/lib/alert";
-import { Category, CategoryListResponse } from "@/model/CategoryModel";
+import { alertConfirm, alertSuccess, handleError } from "@/lib/alert";
+import {
+  Category,
+  CategoryListResponse,
+  CategoryResponse,
+} from "@/model/CategoryModel";
 import { CategoryService } from "@/services/CategoryService";
 import { reactive, ref, watch } from "vue";
 
@@ -60,6 +64,36 @@ export function useCategoryIndex() {
     await loadData();
   }
 
+  async function handleDeleteData(id: number): Promise<void> {
+    isLoading.value = true;
+
+    try {
+      const response: { ok: boolean; data: CategoryResponse } =
+        await CategoryService.delete(id);
+
+      if (response.ok) {
+        alertSuccess("Hapus data sukses");
+      }
+    } catch (e) {
+      handleError(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  async function confirmDelete(id: number): Promise<void> {
+    const alConfirm: { isConfirmed: boolean } = await alertConfirm(
+      "Hapus data ini ?",
+      "Ya, Hapus",
+      "Tidak, Jangan dulu"
+    );
+
+    if (alConfirm.isConfirmed) {
+      await handleDeleteData(id);
+      await loadData();
+    }
+  }
+
   return {
     isLoading,
     loadData,
@@ -70,5 +104,6 @@ export function useCategoryIndex() {
     pages,
     handleChangePage,
     handleSearch,
+    confirmDelete,
   };
 }

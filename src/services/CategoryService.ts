@@ -60,4 +60,16 @@ export const CategoryService = {
       body: JSON.stringify(category),
     });
   },
+
+  async delete(id: number): Promise<ApiFetchResponse<CategoryResponse>> {
+    const token = getToken();
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        ...(token && { "X-API-TOKEN": token }),
+      },
+    });
+  },
 };

@@ -59,7 +59,7 @@
       >
       <div class="mt-4 flex justify-end space-x-2">
         <ButtonEdit :to="`${MENUPATH.KATEGORI}/${category.id}/edit`" />
-        <ButtonDelete />
+        <ButtonDelete @click.prevent="confirmDelete(category.id)" />
       </div>
     </BoxCard>
     <div class="md:col-span-3">
@@ -96,6 +96,7 @@ const {
   pages,
   handleChangePage,
   handleSearch,
+  confirmDelete,
 } = useCategoryIndex();
 
 onBeforeMount(async () => {
