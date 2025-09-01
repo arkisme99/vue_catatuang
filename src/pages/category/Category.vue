@@ -30,7 +30,6 @@
         </div>
       </form>
     </BoxCard>
-    <!-- Data -->
     <div class="md:col-span-3">
       <div class="w-full mx-auto max-w-sm sm:max-w-md md:max-w-xl lg:max-w-6xl">
         <div class="flex justify-between items-center mb-4">
@@ -39,72 +38,16 @@
         </div>
       </div>
     </div>
-    <BoxCard classnew="mb-3">
-      Gaji Kantor
-      <p class="text-sm text-gray-500">Tipe: Pemasukan</p>
+
+    <!-- Data -->
+    <BoxCard v-for="category in cateList" :key="category.id" classnew="mb-3">
+      {{ category.name }}
+      <p class="text-sm text-gray-500">
+        Tipe: <i class="">{{ category.type }}</i>
+      </p>
       <span
         class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
-      >
-      <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
-        <ButtonDelete />
-      </div>
-    </BoxCard>
-    <BoxCard classnew="mb-3">
-      Gaji Freelance
-      <p class="text-sm text-gray-500">Tipe: Pemasukan</p>
-      <span
-        class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
-      >
-      <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
-        <ButtonDelete />
-      </div>
-    </BoxCard>
-    <BoxCard classnew="mb-3">
-      Token Listrik
-      <p class="text-sm text-gray-500">Tipe: Pengeluaran</p>
-      <span
-        class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
-      >
-      <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
-        <ButtonDelete />
-      </div>
-    </BoxCard>
-    <BoxCard classnew="mb-3">
-      Gaji Kantor
-      <p class="text-sm text-gray-500">Tipe: Pemasukan</p>
-      <span
-        class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
-      >
-      <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
-        <ButtonDelete />
-      </div>
-    </BoxCard>
-    <BoxCard classnew="mb-3">
-      Gaji Freelance
-      <p class="text-sm text-gray-500">Tipe: Pemasukan</p>
-      <span
-        class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
-      >
-      <div class="mt-4 flex justify-end space-x-2">
-        <ButtonEdit />
-        <ButtonDelete />
-      </div>
-    </BoxCard>
-    <BoxCard classnew="mb-3">
-      Token Listrik
-      <p class="text-sm text-gray-500">Tipe: Pengeluaran</p>
-      <span
-        class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded"
-        >Aktif</span
+        >{{ category.updated_at }}</span
       >
       <div class="mt-4 flex justify-end space-x-2">
         <ButtonEdit />
@@ -124,9 +67,16 @@ import ButtonDelete from "@/components/ButtonDelete.vue";
 import ButtonEdit from "@/components/ButtonEdit.vue";
 import ButtonSave from "@/components/ButtonSave.vue";
 import ButtonSubmit from "@/components/ButtonSubmit.vue";
-import InputTypeButton from "@/components/InputTypeButton.vue";
 import Pagination from "@/components/Pagination.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
+import { useCategoryIndex } from "@/composable/category/useCategoryIndex";
+import { onBeforeMount } from "vue";
+
+const { loadData, cateList } = useCategoryIndex();
+
+onBeforeMount(async () => {
+  loadData();
+});
 </script>
 
 <style scoped></style>
