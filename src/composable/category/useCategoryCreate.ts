@@ -9,7 +9,9 @@ export function useCategoryCreate() {
   const isLoading = ref<boolean>(false);
 
   const category = reactive({
-    name: "",
+    date: "",
+    description: "",
+    total: "",
     type: CategoryTypeEnum.Income,
   });
 

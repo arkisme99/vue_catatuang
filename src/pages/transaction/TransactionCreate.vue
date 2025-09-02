@@ -20,22 +20,22 @@
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
             label="Tanggal Transaksi"
-            id="pfName"
-            name="pfName"
-            type="text"
+            id="pfDate"
+            name="pfDate"
+            type="date"
             placeholder="Cari Tanggal Transaksi"
             autocomplete="off"
             icon="fas fa-calendar-alt"
-            v-model="category.name"
+            v-model="category.date"
           />
           <BaseInput
-            label="Tipe Deskripsi"
-            id="pfTipe"
-            name="pfTipe"
-            placeholder="Cari Deskripsi"
+            label="Deskripsi"
+            id="pfDeskripsi"
+            name="pfDeskripsi"
+            placeholder="Deskripsi Transaksi"
             autocomplete="off"
             icon="fas fa-file-text"
-            v-model="category.type"
+            v-model="category.description"
           />
         </div>
         <div class="grid md:grid-cols-2 gap-4">
@@ -47,7 +47,7 @@
             placeholder="Cari Total"
             autocomplete="off"
             icon="fas fa-cash-register"
-            v-model="category.name"
+            v-model="category.total"
           />
           <BaseSelect
             label="Tipe Kategori"
