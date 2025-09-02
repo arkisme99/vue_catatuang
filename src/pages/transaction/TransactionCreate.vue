@@ -23,10 +23,10 @@
             id="pfDate"
             name="pfDate"
             type="date"
-            placeholder="Cari Tanggal Transaksi"
+            placeholder="Masukan Tanggal Transaksi"
             autocomplete="off"
             icon="fas fa-calendar-alt"
-            v-model="category.date"
+            v-model="transaction.transaction_date"
           />
           <BaseInput
             label="Deskripsi"
@@ -35,26 +35,47 @@
             placeholder="Deskripsi Transaksi"
             autocomplete="off"
             icon="fas fa-file-text"
-            v-model="category.description"
+            v-model="transaction.description"
+          />
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <BaseInput
+            label="Bulan"
+            id="pfMonth"
+            name="pfMonth"
+            type="text"
+            placeholder="Masukan Bulan Transaksi"
+            autocomplete="off"
+            icon="fas fa-calendar-alt"
+            v-model="transaction.month"
+          />
+          <BaseInput
+            label="Tahun"
+            id="pfTahun"
+            name="pfTahun"
+            placeholder="Masukan Tahun Transaksi"
+            autocomplete="off"
+            icon="fas fa-file-text"
+            v-model="transaction.year"
           />
         </div>
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
             label="Total"
-            id="pfName"
-            name="pfName"
+            id="pfAmount"
+            name="pfAmount"
             type="text"
-            placeholder="Cari Total"
+            placeholder="Masukan Total Transaksi"
             autocomplete="off"
             icon="fas fa-cash-register"
-            v-model="category.total"
+            v-model="transaction.amount"
           />
           <BaseSelect
             label="Tipe Kategori"
             id="pfTipe"
             name="pfTipe"
             placeholder="Pilih tipe: income / outcome"
-            v-model="category.type"
+            v-model="transaction.category_id"
             :options="categoryOptions"
           />
         </div>
@@ -74,11 +95,13 @@ import BaseSelect from "@/components/BaseSelect.vue";
 import BoxCard from "@/components/BoxCard.vue";
 import ButtonSave from "@/components/ButtonSave.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
-import { useCategoryCreate } from "@/composable/category/useCategoryCreate";
+import { useTransactionCreate } from "@/composable/transaction/useTransactionCreate";
 import MENUPATH from "@/lib/menuEnum";
 
-const { isLoading, category, handleSubmit, categoryOptions } =
-  useCategoryCreate();
+const { isLoading, transaction, handleSubmit, loadDataToOptions } =
+  useTransactionCreate();
+
+const categoryOptions = await loadDataToOptions();
 </script>
 
 <style scoped></style>

@@ -7,7 +7,7 @@ import {
 import { CategoryService } from "@/services/CategoryService";
 import { reactive, ref, watch } from "vue";
 
-export function useCategoryIndex() {
+export function useTransactionIndex() {
   const isLoading = ref<boolean>(false);
   const page = ref<number>(1);
   const totalPage = ref<number>(1);
@@ -94,37 +94,6 @@ export function useCategoryIndex() {
     }
   }
 
-  async function loadDataToOptions(): Promise<
-    { label: string; value: string | number }[]
-  > {
-    isLoading.value = true;
-    try {
-      const response: { ok: boolean; data: CategoryListResponse } =
-        await CategoryService.search({
-          name: category.name,
-          type: category.type,
-          page: page.value,
-          size: size.value,
-        });
-
-      if (response.ok) {
-        const data = response.data.data;
-        return data.map((item: Record<string, any>) => ({
-          label:
-            String(item["name"]).charAt(0).toUpperCase() +
-            String(item["name"]).slice(1),
-          value: item["id"],
-        }));
-      }
-      return [];
-    } catch (e) {
-      handleError(e);
-      return [];
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
   return {
     isLoading,
     loadData,
@@ -136,6 +105,5 @@ export function useCategoryIndex() {
     handleChangePage,
     handleSearch,
     confirmDelete,
-    loadDataToOptions,
   };
 }

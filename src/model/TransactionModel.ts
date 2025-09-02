@@ -22,7 +22,14 @@ export interface SearchTransactionRequest {
   size?: number;
 }
 
-export interface CreateTransactionRequest extends Transaction {}
+export interface CreateTransactionRequest {
+  transaction_date: string;
+  category_id: number;
+  description: string;
+  month: number;
+  year: number;
+  amount: number;
+}
 
 export interface TransactionListResponse extends ApiResponse {
   data: Transaction[];
