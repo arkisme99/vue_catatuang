@@ -1,10 +1,10 @@
 <template>
   <SectionGrid
-    id="category"
-    title="Ubah Kategori"
+    id="transaction"
+    title="Ubah Transaksi"
     cols="3"
     :back-button="true"
-    :back-button-to="MENUPATH.KATEGORI"
+    :back-button-to="MENUPATH.TRANSAKSI"
   >
     <BoxCard
       classnew="md:col-span-3 mb-10"
@@ -14,48 +14,76 @@
     >
       <form
         v-on:submit.prevent="handleSubmit(id)"
-        id="categoryForm"
+        id="transactionForm"
         class="space-y-4 px-5 py-3 animate-slideToRight"
       >
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
             label="Tanggal Transaksi"
-            id="pfName"
-            name="pfName"
-            type="text"
-            placeholder="Cari Tanggal Transaksi"
+            id="pfDate"
+            name="pfDate"
+            type="date"
+            placeholder="Masukan Tanggal Transaksi"
             autocomplete="off"
             icon="fas fa-calendar-alt"
-            v-model="category.name"
+            :value="transaction.transaction_date"
+            v-model="transaction.transaction_date"
+            required
           />
           <BaseInput
-            label="Tipe Deskripsi"
-            id="pfTipe"
-            name="pfTipe"
-            placeholder="Cari Deskripsi"
+            label="Deskripsi"
+            id="pfDeskripsi"
+            name="pfDeskripsi"
+            placeholder="Deskripsi Transaksi"
             autocomplete="off"
             icon="fas fa-file-text"
-            v-model="category.type"
+            v-model="transaction.description"
+            required
+          />
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <BaseInput
+            label="Bulan"
+            id="pfMonth"
+            name="pfMonth"
+            type="text"
+            placeholder="Masukan Bulan Transaksi"
+            autocomplete="off"
+            icon="fas fa-calendar-alt"
+            v-model="transaction.month"
+            required
+          />
+          <BaseInput
+            label="Tahun"
+            id="pfTahun"
+            name="pfTahun"
+            placeholder="Masukan Tahun Transaksi"
+            autocomplete="off"
+            icon="fas fa-file-text"
+            v-model="transaction.year"
+            required
           />
         </div>
         <div class="grid md:grid-cols-2 gap-4">
           <BaseInput
             label="Total"
-            id="pfName"
-            name="pfName"
+            id="pfAmount"
+            name="pfAmount"
             type="text"
-            placeholder="Cari Total"
+            placeholder="Masukan Total Transaksi"
             autocomplete="off"
             icon="fas fa-cash-register"
-            v-model="category.name"
+            v-model="transaction.amount"
+            required
           />
           <BaseSelect
-            label="Tipe Kategori"
+            label="Kategori"
             id="pfTipe"
             name="pfTipe"
-            placeholder="Pilih tipe: income / outcome"
-            v-model="category.type"
+            placeholder="Pilih Kategori"
+            v-model="transaction.category_id"
             :options="categoryOptions"
+            required
           />
         </div>
         <div class="grid md:grid-cols-3 gap-4">
@@ -74,19 +102,26 @@ import BaseSelect from "@/components/BaseSelect.vue";
 import BoxCard from "@/components/BoxCard.vue";
 import ButtonSave from "@/components/ButtonSave.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
-import { useCategoryEdit } from "@/composable/category/useCategoryEdit";
+import { useTransactionEdit } from "@/composable/transaction/useTransactionEdit";
 import MENUPATH from "@/lib/menuEnum";
+import { onMounted, ref } from "vue";
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
 
-const { isLoading, category, getData, categoryOptions, handleSubmit } =
-  useCategoryEdit();
+const { isLoading, transaction, getData, loadDataToOptions, handleSubmit } =
+  useTransactionEdit();
 
 const route = useRoute();
 const id = Number(route.params.id);
 
+const categoryOptions = ref<{ label: string; value: string | number }[]>([]);
+
 onBeforeMount(async () => {
   await getData(id);
+});
+
+onMounted(async () => {
+  categoryOptions.value = await loadDataToOptions();
 });
 </script>
 

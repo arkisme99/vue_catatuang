@@ -76,7 +76,10 @@
       :key="transaction.id"
       classnew="mb-3"
     >
-      {{ transaction.description }}
+      <p class="text-sm text-gray-500">
+        <i class="">{{ formatDate(transaction.transaction_date) }}</i>
+      </p>
+      <span>{{ transaction.description }}</span>
       <p class="text-sm text-gray-500">
         Kategori: <i class="">{{ transaction.category_id }}</i>
       </p>
@@ -111,6 +114,7 @@ import ButtonSubmit from "@/components/ButtonSubmit.vue";
 import Pagination from "@/components/Pagination.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
 import { useTransactionIndex } from "@/composable/transaction/useTransactionIndex";
+import { formatDate } from "@/lib/format-date";
 
 import MENUPATH from "@/lib/menuEnum";
 import { onBeforeMount } from "vue";

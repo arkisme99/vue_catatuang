@@ -1,6 +1,6 @@
 <template>
   <SectionGrid
-    id="category"
+    id="transaction"
     title="Tambah Transaksi"
     cols="3"
     :back-button="true"
@@ -14,7 +14,7 @@
     >
       <form
         v-on:submit.prevent="handleSubmit"
-        id="categoryForm"
+        id="transactionForm"
         class="space-y-4 px-5 py-3 animate-slideToRight"
       >
         <div class="grid md:grid-cols-2 gap-4">
