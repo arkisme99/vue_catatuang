@@ -1,10 +1,10 @@
 import { alertConfirm, alertSuccess, handleError } from "@/lib/alert";
 import {
-  Category,
-  CategoryListResponse,
-  CategoryResponse,
-} from "@/model/CategoryModel";
-import { CategoryService } from "@/services/CategoryService";
+  Transaction,
+  TransactionListResponse,
+  TransactionResponse,
+} from "@/model/TransactionModel";
+import { TransactionService } from "@/services/TransactionService";
 import { reactive, ref, watch } from "vue";
 
 export function useTransactionIndex() {
@@ -14,11 +14,14 @@ export function useTransactionIndex() {
   const size = ref<number>(9);
   const pages = ref<number[]>([]);
 
-  const cateList = ref<Category[]>([]);
+  const transactionList = ref<Transaction[]>([]);
 
-  const category = reactive({
-    name: "",
-    type: "",
+  const transaction = reactive({
+    transaction_date: "",
+    description: "",
+    month: "",
+    year: "",
+    amount: "",
   });
 
   watch(totalPage, (value) => {
@@ -29,21 +32,24 @@ export function useTransactionIndex() {
     pages.value = data;
   });
 
-  //load search category
+  //load search transaction
   async function loadData(): Promise<void> {
     isLoading.value = true;
 
     try {
-      const response: { ok: boolean; data: CategoryListResponse } =
-        await CategoryService.search({
-          name: category.name,
-          type: category.type,
+      const response: { ok: boolean; data: TransactionListResponse } =
+        await TransactionService.search({
+          transaction_date: transaction.transaction_date,
+          description: transaction.description,
+          month: Number(transaction.month),
+          year: Number(transaction.year),
+          amount: Number(transaction.amount),
           page: page.value,
           size: size.value,
         });
 
       if (response.ok) {
-        cateList.value = response.data.data;
+        transactionList.value = response.data.data;
         totalPage.value = response.data.paging.total_page;
       }
     } catch (e) {
@@ -68,8 +74,8 @@ export function useTransactionIndex() {
     isLoading.value = true;
 
     try {
-      const response: { ok: boolean; data: CategoryResponse } =
-        await CategoryService.delete(id);
+      const response: { ok: boolean; data: TransactionResponse } =
+        await TransactionService.delete(id);
 
       if (response.ok) {
         alertSuccess("Hapus data sukses");
@@ -97,8 +103,8 @@ export function useTransactionIndex() {
   return {
     isLoading,
     loadData,
-    cateList,
-    category,
+    transactionList,
+    transaction,
     page,
     totalPage,
     pages,
