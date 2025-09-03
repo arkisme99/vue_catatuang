@@ -14,6 +14,7 @@
         :name="name"
         v-model="modelValueLocal"
         class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-neutral-800 px-4 py-2 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+        v-bind="attrs"
       >
         <option value="" disabled hidden>
           {{ placeholder ?? "Select option..." }}
@@ -27,7 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, useAttrs, watch } from "vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = defineProps<{
   id?: string;
@@ -43,6 +48,8 @@ const emit = defineEmits<{
 }>();
 
 const modelValueLocal = ref(props.modelValue);
+
+const attrs = useAttrs();
 
 watch(
   () => props.modelValue,

@@ -27,6 +27,7 @@
             autocomplete="off"
             icon="fas fa-calendar-alt"
             v-model="transaction.transaction_date"
+            required
           />
           <BaseInput
             label="Deskripsi"
@@ -36,6 +37,7 @@
             autocomplete="off"
             icon="fas fa-file-text"
             v-model="transaction.description"
+            required
           />
         </div>
         <div class="grid md:grid-cols-2 gap-4">
@@ -48,6 +50,7 @@
             autocomplete="off"
             icon="fas fa-calendar-alt"
             v-model="transaction.month"
+            required
           />
           <BaseInput
             label="Tahun"
@@ -57,6 +60,7 @@
             autocomplete="off"
             icon="fas fa-file-text"
             v-model="transaction.year"
+            required
           />
         </div>
         <div class="grid md:grid-cols-2 gap-4">
@@ -69,14 +73,16 @@
             autocomplete="off"
             icon="fas fa-cash-register"
             v-model="transaction.amount"
+            required
           />
           <BaseSelect
-            label="Tipe Kategori"
+            label="Kategori"
             id="pfTipe"
             name="pfTipe"
-            placeholder="Pilih tipe: income / outcome"
+            placeholder="Pilih Kategori"
             v-model="transaction.category_id"
             :options="categoryOptions"
+            required
           />
         </div>
         <div class="grid md:grid-cols-3 gap-4">
@@ -97,11 +103,16 @@ import ButtonSave from "@/components/ButtonSave.vue";
 import SectionGrid from "@/components/SectionGrid.vue";
 import { useTransactionCreate } from "@/composable/transaction/useTransactionCreate";
 import MENUPATH from "@/lib/menuEnum";
+import { onMounted, ref } from "vue";
 
 const { isLoading, transaction, handleSubmit, loadDataToOptions } =
   useTransactionCreate();
 
-const categoryOptions = await loadDataToOptions();
+const categoryOptions = ref<{ label: string; value: string | number }[]>([]);
+
+onMounted(async () => {
+  categoryOptions.value = await loadDataToOptions();
+});
 </script>
 
 <style scoped></style>
