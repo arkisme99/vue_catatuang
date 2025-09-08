@@ -79,7 +79,7 @@ import { computed } from "vue";
 
 const authStore = useAuthStore();
 
-const name = computed(() => authStore.authProfile?.name ?? "Pengguna");
+const name = computed(() => authStore.user?.name ?? "Pengguna");
 </script>
 
 <style scoped></style>

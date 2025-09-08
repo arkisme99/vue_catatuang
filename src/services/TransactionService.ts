@@ -51,28 +51,30 @@ export const TransactionService = {
       url += `?${params.toString()}`;
     }
 
-    return await apiFetch<TransactionListResponse>(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch<TransactionListResponse>(
+      url,
+      {
+        method: "GET",
       },
-    });
+      token
+    );
   },
 
   async create(
     transaction: CreateTransactionRequest
   ): Promise<ApiFetchResponse<TransactionResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/transactions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/transactions`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(transaction),
       },
-      body: JSON.stringify(transaction),
-    });
+      token
+    );
   },
 
   async delete(id: number): Promise<ApiFetchResponse<TransactionResponse>> {
@@ -81,11 +83,8 @@ export const TransactionService = {
       `${import.meta.env.VITE_API_PATH}/transactions/${id}`,
       {
         method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          ...(token && { "X-API-TOKEN": token }),
-        },
-      }
+      },
+      token
     );
   },
 
@@ -95,11 +94,8 @@ export const TransactionService = {
       `${import.meta.env.VITE_API_PATH}/transactions/${id}`,
       {
         method: "GET",
-        headers: {
-          Accept: "application/json",
-          ...(token && { "X-API-TOKEN": token }),
-        },
-      }
+      },
+      token
     );
   },
 
@@ -114,11 +110,10 @@ export const TransactionService = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
-          ...(token && { "X-API-TOKEN": token }),
         },
         body: JSON.stringify(transaction),
-      }
+      },
+      token
     );
   },
 };

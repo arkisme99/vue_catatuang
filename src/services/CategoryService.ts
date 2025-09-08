@@ -37,50 +37,52 @@ export const CategoryService = {
       url += `?${params.toString()}`;
     }
 
-    return await apiFetch<CategoryListResponse>(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch<CategoryListResponse>(
+      url,
+      {
+        method: "GET",
       },
-    });
+      token
+    );
   },
 
   async create(
     category: CreateCategoryRequest
   ): Promise<ApiFetchResponse<CategoryResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/categories`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(category),
       },
-      body: JSON.stringify(category),
-    });
+      token
+    );
   },
 
   async delete(id: number): Promise<ApiFetchResponse<CategoryResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/categories/${id}`,
+      {
+        method: "DELETE",
       },
-    });
+      token
+    );
   },
 
   async get(id: number): Promise<ApiFetchResponse<CategoryResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/categories/${id}`,
+      {
+        method: "GET",
       },
-    });
+      token
+    );
   },
 
   async update(
@@ -88,14 +90,16 @@ export const CategoryService = {
     category: CreateCategoryRequest
   ): Promise<ApiFetchResponse<CategoryResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/categories/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/categories/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(category),
       },
-      body: JSON.stringify(category),
-    });
+      token
+    );
   },
 };

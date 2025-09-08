@@ -3,10 +3,10 @@
   <SectionGrid id="profile" title="Profile" cols="4">
     <BoxCard classnew="md:col-span-1">
       <div class="flex items-center gap-4">
-        <AvatarInitial :initials="initialsName(authProfile?.name ?? '')" />
+        <AvatarInitial :initials="initialsName(authStore.user?.name ?? '')" />
         <div>
-          <p class="font-semibold">{{ authProfile?.name }}</p>
-          <p class="text-sm text-neutral-500">{{ authProfile?.email }}</p>
+          <p class="font-semibold">{{ authStore.user?.name }}</p>
+          <p class="text-sm text-neutral-500">{{ authStore.user?.email }}</p>
         </div>
       </div>
     </BoxCard>
@@ -118,7 +118,7 @@ import { ref } from "vue";
 
 const activeTab = ref<string>("profil");
 
-const { user, isLoading, getProfile, handleSubmitProfile, authProfile } =
+const { user, isLoading, getProfile, handleSubmitProfile, authStore } =
   useProfile();
 
 getProfile();

@@ -10,9 +10,11 @@ const pinia = createPinia();
 app.use(pinia);
 
 // Check token saat app start
-const authStore = useAuthStore();
-await authStore.checkTokenOnMain();
+// const authStore = useAuthStore();
+// await authStore.checkTokenOnMain();
 // console.log(`main: ${authStore.isTokenValid}`);
+const auth = useAuthStore();
+await auth.refresh();
 
 app.use(router);
 

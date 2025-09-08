@@ -72,8 +72,8 @@ import { useAuthStore } from "@/stores/auth";
 import { computed } from "vue";
 
 const authStore = useAuthStore();
-const isLoggedIn = computed(() => authStore.isTokenValid);
-const name = computed(() => authStore.authProfile?.name ?? "Pengguna");
+const isLoggedIn = computed(() => authStore.isAuthenticated);
+const name = computed(() => authStore.user?.name ?? "Pengguna");
 </script>
 
 <style scoped></style>

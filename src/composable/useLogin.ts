@@ -1,4 +1,4 @@
-import { alertError, handleError } from "@/lib/alert";
+import { handleError } from "@/lib/alert";
 import MENUPATH from "@/lib/menuEnum";
 import { LoginUserResponse } from "@/model/UserModel";
 import { AuthService } from "@/services/AuthService";
@@ -18,7 +18,6 @@ export function useLogin() {
   const authStore = useAuthStore();
   const flashStore = useFlashStore();
 
-  const { setData } = authStore;
   const { setFlash } = flashStore;
 
   async function handleSubmit(): Promise<void> {
@@ -31,9 +30,10 @@ export function useLogin() {
 
       if (response.ok) {
         const bodyResponse = response.data;
+        authStore.accessToken = bodyResponse.data.token ?? null;
+        await authStore.fetchUser();
         // console.log(`oke : ${bodyResponse}`);
 
-        setData(bodyResponse.data);
         await setFlash("Login sukses", "success");
         // await router.push({ path: "/dashboard" });
         const redirect =

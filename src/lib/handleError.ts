@@ -5,7 +5,7 @@ import { SweetAlertResult } from "sweetalert2";
 export async function handleFetchError<T extends ApiResponse>(
   response: Response,
   responseBody: T
-): Promise<SweetAlertResult | void> {
+): Promise<SweetAlertResult | void | null> {
   if (response.status == 400) {
     // Error 400 Validasi
     const errors =
@@ -15,12 +15,17 @@ export async function handleFetchError<T extends ApiResponse>(
 
     return await alertWarning(errors);
   } else if (response.status == 401) {
-    return await alertWarning(responseBody?.message || "Unauthorized");
+    // return await alertWarning(responseBody?.message || "Unauthorized");
+    return null;
   } else {
     // Error 5xx (server error)
     return await alertError(
       `${response.status} : ${
-        responseBody?.message || "Terjadi kesalahan di server"
+        responseBody?.message
+          ? responseBody.message
+          : responseBody?.error
+          ? responseBody.error
+          : "Terjadi kesalahan di server"
       }`
     );
   }

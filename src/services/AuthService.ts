@@ -46,7 +46,6 @@ export const AuthService = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify(user),
       }
@@ -55,7 +54,18 @@ export const AuthService = {
     return result; // langsung data typed
   },
 
-  async getProfile(): Promise<Response> {
+  async getProfile(): Promise<ApiFetchResponse<UpdateProfileResponse>> {
+    const token = getToken();
+    //pakai fetch biasa karena apipFetch semua error fetch keluar alert
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/auth/profile`,
+      {
+        method: "GET",
+      },
+      token
+    );
+  },
+  /* async getProfile(): Promise<Response> {
     const token = getToken();
     //pakai fetch biasa karena apipFetch semua error fetch keluar alert
     return await fetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
@@ -66,36 +76,39 @@ export const AuthService = {
         ...(token && { "X-API-TOKEN": token }),
       },
     });
-  },
+  }, */
 
   async updateProfile(
     user: UpdateProfileRequest
   ): Promise<ApiFetchResponse<UpdateProfileResponse>> {
     const token = getToken();
-    return await apiFetch(`${import.meta.env.VITE_API_PATH}/auth/profile`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        ...(token && { "X-API-TOKEN": token }),
+    return await apiFetch(
+      `${import.meta.env.VITE_API_PATH}/auth/profile`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
       },
-      body: JSON.stringify(user),
-    });
+      token
+    );
   },
 
   async logout() {
-    const token = getToken();
     const result = await apiFetch(
       `${import.meta.env.VITE_API_PATH}/auth/logout`,
       {
         method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          ...(token && { "X-API-TOKEN": token }),
-        },
       }
     );
 
     return result;
+  },
+
+  async refresh(): Promise<ApiFetchResponse<UpdateProfileResponse>> {
+    return await apiFetch(`${import.meta.env.VITE_API_PATH}/auth/refresh`, {
+      method: "POST",
+    });
   },
 };

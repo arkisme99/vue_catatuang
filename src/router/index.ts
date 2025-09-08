@@ -88,16 +88,16 @@ router.beforeEach(async (to, from, next) => {
   const flashStore = useFlashStore();
   const { setFlash } = flashStore;
 
-  // console.log(`cekrutt: ${authStore.isTokenValid}`);
+  // console.log(`cekrutt: ${authStore.isAuthenticated}`);
   // Route butuh login
-  if (to.meta.requiresAuth && !authStore.isTokenValid) {
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     authStore.logout(); //bersihkan state auth
     setFlash("Login dulu kanda...!", "danger");
     return next({ path: "/login", query: { redirect: to.fullPath } });
   }
 
   // Route public, tapi user udah login
-  if (to.meta.guestOnly && authStore.isTokenValid) {
+  if (to.meta.guestOnly && authStore.isAuthenticated) {
     return next({ path: "/dashboard" });
   }
 

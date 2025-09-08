@@ -198,7 +198,7 @@ import MENUPATH from "@/lib/menuEnum";
 
 const authStore = useAuthStore();
 
-const isLoggedIn = computed(() => authStore.isTokenValid);
+const isLoggedIn = computed(() => authStore.isAuthenticated);
 
 const { toggleTheme } = useThemeStore();
 

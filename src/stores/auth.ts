@@ -1,64 +1,57 @@
-import { useLocalStorage } from "@vueuse/core";
 import { ProfileUser } from "@/model/UserModel";
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
 import { AuthService } from "@/services/AuthService";
+import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore("auth", () => {
-  const PROFILE_KEY = "profile-user";
-  const AUTH_TOKEN = "session-token";
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    user: null as ProfileUser | null,
+    isAuthenticated: false,
+    loading: false,
+    accessToken: null as string | null,
+  }),
 
-  const authToken = useLocalStorage<string | null>(AUTH_TOKEN, null);
-  const authProfile = useLocalStorage<ProfileUser | null>(PROFILE_KEY, null);
-  const isTokenValid = ref<boolean>(false);
-
-  // Watch token changes, auto logout jika token diubah manual
-  watch(authToken, async (newVal, oldVal) => {
-    if (oldVal && newVal !== oldVal) {
-      // console.warn("Token di localStorage diubah manual!");
-      logout();
-    }
-  });
-  async function checkTokenOnMain(): Promise<void> {
-    if (!authToken.value) {
-      logout();
-    }
-    try {
-      const response = await AuthService.getProfile();
-
-      const responseBody = await response.json();
-      if (!response.ok) {
-        return;
+  actions: {
+    async fetchUser() {
+      this.loading = true;
+      try {
+        const response = await AuthService.getProfile();
+        this.user = response.data.data;
+        this.isAuthenticated = true;
+      } catch (err) {
+        this.user = null;
+        this.isAuthenticated = false;
+      } finally {
+        this.loading = false;
       }
-      setData(responseBody.data);
-    } catch (e) {
-      logout();
-      throw e;
-    }
-  }
+    },
 
-  function setData(data: ProfileUser): void {
-    if (data.token) {
-      authToken.value = data.token;
-    }
-    authProfile.value = data;
-    isTokenValid.value = true;
-    // console.log(`setData: ${isTokenValid.value}`);
-  }
+    /* async login(payload: LoginUserRequest) {
+      try {
+        const response = await AuthService.login(payload);
+        this.accessToken = response.data.data.token ?? null;
+        await this.fetchUser();
+      } catch (err) {
+        throw err;
+      }
+    }, */
 
-  function logout(): void {
-    authToken.value = null;
-    authProfile.value = null;
-    isTokenValid.value = false;
-  }
+    async logout() {
+      try {
+        await AuthService.logout();
+      } finally {
+        this.user = null;
+        this.isAuthenticated = false;
+      }
+    },
 
-  return {
-    authToken,
-    authProfile,
-    isTokenValid,
-    setData,
-    // checkToken,
-    checkTokenOnMain,
-    logout,
-  };
+    async refresh() {
+      try {
+        const response = await AuthService.refresh();
+        this.accessToken = response.data.data.token ?? null;
+        await this.fetchUser();
+      } catch (err) {
+        // this.logout();
+      }
+    },
+  },
 });
